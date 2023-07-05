@@ -1,6 +1,7 @@
 import Dashboard from "../pages/dashboard";
 import Pendings from "../pages/pendings";
 import Transactions from "../pages/transactions";
+import Login from "../pages/login";
 
 
 const routes = [
@@ -10,4 +11,9 @@ const routes = [
     { path: "/transactions", component: <Transactions /> },
 ]
 
-export {routes};
+const publicRoutes = [
+    // Authentication Page
+    { path: "/login", component: <Login /> },
+]
+
+export {routes, publicRoutes};

@@ -1,4 +1,4 @@
-import ItAdmin from "./it";
+import ItAdmin from "./core";
 
 function App() {
   return (
