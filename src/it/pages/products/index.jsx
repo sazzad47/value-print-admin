@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import Header from "../../components/Header";
 import { useGetProductsQuery } from "../../state/api";
+import { Link } from "react-router-dom";
 
 const Product = ({
   _id,
@@ -92,6 +93,7 @@ const Products = () => {
   return (
     <Box m="1.5rem 2.5rem">
       <Header title="PRODUCTS" subtitle="See your list of products." />
+      <Link to="/transaction"><button>test</button></Link>
       {data || !isLoading ? (
         <Box
           mt="20px"

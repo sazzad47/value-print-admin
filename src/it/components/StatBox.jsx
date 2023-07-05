@@ -18,7 +18,7 @@ const StatBox = ({ title, value, increase, icon, description }) => {
     >
       <FlexBetween>
         <Typography variant="h6" sx={{ color: theme.palette.secondary[100] }}>
-          {title}
+        {increase}
         </Typography>
         {icon}
       </FlexBetween>
@@ -31,13 +31,6 @@ const StatBox = ({ title, value, increase, icon, description }) => {
         {value}
       </Typography>
       <FlexBetween gap="1rem">
-        <Typography
-          variant="h5"
-          fontStyle="italic"
-          sx={{ color: theme.palette.secondary.light }}
-        >
-          {increase}
-        </Typography>
         <Typography>{description}</Typography>
       </FlexBetween>
     </Box>

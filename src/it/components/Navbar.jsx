@@ -1,43 +1,32 @@
-import React, { useContext, useState } from "react";
-import {
-  Menu as MenuIcon,
-  ArrowDropDownOutlined,
-} from "@mui/icons-material";
+import React from "react";
+import { Menu as MenuIcon } from "@mui/icons-material";
 import FlexBetween from "../components/FlexBetween";
-
+import { SettingsOutlined } from "@mui/icons-material";
+import { setMode } from "../state";
 
 import {
   AppBar,
-  Button,
-  Box,
   IconButton,
   Toolbar,
-  Menu,
-  MenuItem,
-  useTheme
+  useTheme,
 } from "@mui/material";
+import { useDispatch } from "react-redux";
 
-const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen, isNonMobile }) => {
+const Navbar = ({ isSidebarOpen, setIsSidebarOpen, isNonMobile }) => {
+  const dispatch = useDispatch();
   const theme = useTheme();
- 
-  const [anchorEl, setAnchorEl] = useState(null);
-  const isOpen = Boolean(anchorEl);
-  const handleClick = (event) => setAnchorEl(event.currentTarget);
-  const handleClose = () => setAnchorEl(null);
-  const handleLogout = () => {
-    // Cookie.remove("refreshtoken", { path: "api/auth/accessToken" });
-    // localStorage.removeItem("firstLogin");
-    // dispatch({ type: GlobalTypes.AUTH, payload: {} });
-    // return router.push("/login");
-  };
+
   return (
     <AppBar
       sx={{
         // position: "static",
         backgroundColor: theme.palette.background.alt,
         boxShadow: "none",
-        width: !isNonMobile? "100%" : isSidebarOpen? "calc(100% - 250px)" : "100%",
-        
+        width: !isNonMobile
+          ? "100%"
+          : isSidebarOpen
+          ? "calc(100% - 250px)"
+          : "100%",
       }}
     >
       <Toolbar sx={{ justifyContent: "space-between" }}>
@@ -50,7 +39,10 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen, isNonMobile }) => {
 
         {/* RIGHT SIDE */}
         <FlexBetween gap="1.5rem">
-          <FlexBetween>
+          <IconButton onClick={() => dispatch(setMode())}>
+            <SettingsOutlined sx={{ fontSize: "25px" }} />
+          </IconButton>
+          {/* <FlexBetween>
             <Button
               onClick={handleClick}
               sx={{
@@ -82,7 +74,7 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen, isNonMobile }) => {
             >
               <MenuItem onClick={handleLogout}>Log Out</MenuItem>
             </Menu>
-          </FlexBetween>
+          </FlexBetween> */}
         </FlexBetween>
       </Toolbar>
     </AppBar>

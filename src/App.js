@@ -1,9 +1,9 @@
-import ItAdmin from "./it"
+import ItAdmin from "./it";
 
 function App() {
   return (
     <>
-     <ItAdmin/>
+      <ItAdmin />
     </>
   );
 }

@@ -39,10 +39,10 @@ const Layout = ({ children }) => {
             setIsSidebarOpen={setIsSidebarOpen}
             isNonMobile={isNonMobile}
           />
-          {/* <Grid className="mt-[4rem] max-h-[88vh] overflow-y-auto">
+          <Grid className="mt-[4rem] max-h-[88vh] overflow-y-auto">
 
           {children}
-          </Grid> */}
+          </Grid>
         </Box>
       </Box>
     </ThemeProvider>

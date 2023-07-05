@@ -45,13 +45,13 @@ const Pendings = () => {
     },
     {
       field: "userId",
-      headerName: "Order ID",
+      headerName: "Transaction ID",
       sortable: false,
       flex: 1,
     },
     {
       field: "subscription",
-      headerName: "Category",
+      headerName: "Order ID",
       sortable: false,
       flex: 1,
     },
@@ -83,7 +83,7 @@ const Pendings = () => {
   return (
     <Box m="1.5rem 2.5rem">
       <Header
-        title="Pending Orders"
+        title="Transactions"
       />
       <Box
         height="80vh"
