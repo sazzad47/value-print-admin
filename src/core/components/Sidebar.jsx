@@ -16,6 +16,7 @@ import FeaturedPlayListIcon from "@mui/icons-material/FeaturedPlayList";
 import HomeIcon from '@mui/icons-material/Home';
 import InfoIcon from '@mui/icons-material/Info';
 import ContactMailIcon from '@mui/icons-material/ContactMail';
+import AssistantIcon from '@mui/icons-material/Assistant';
 import { Box, useTheme } from "@mui/material";
 
 import { Link, useNavigate } from "react-router-dom";
@@ -100,7 +101,7 @@ const SidebarComponent = ({ isSidebarOpen }) => {
                 <MenuItem
                   active={window.location.pathname === "/products/variants"}
                   component={<Link to="/products/variants" className="link" />}
-                  icon={<FeaturedPlayListIcon />}
+                  icon={<AssistantIcon />}
                 >
                   Variants
                 </MenuItem>
