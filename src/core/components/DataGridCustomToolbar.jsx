@@ -19,11 +19,11 @@ const DataGridCustomToolbar = ({setGetData}) => {
           <GridToolbarExport />
         </FlexBetween>
         <Grid className="hidden md:block">
-        <Button onClick={()=> setGetData(prevState=> !prevState)} startIcon={<RefreshIcon/>}>Refresh</Button>
+        <Button startIcon={<RefreshIcon/>}>Refresh</Button>
         </Grid>
       </FlexBetween>
       <Grid className="block md:hidden mb-2">
-        <Button onClick={()=> setGetData(prevState=> !prevState)} startIcon={<RefreshIcon/>}>Refresh</Button>
+        <Button startIcon={<RefreshIcon/>}>Refresh</Button>
         </Grid>
     </GridToolbarContainer>
   );
