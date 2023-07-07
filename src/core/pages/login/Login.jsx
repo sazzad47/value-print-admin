@@ -65,12 +65,9 @@ export default function LoginPage({ userData, setUserData }) {
             Value Printing Pte Ltd
           </Typography>
           <Grid className="w-full p-4 mt-4 bg-zinc-500 flex flex-col gap-3">
-            <Grid className="flex items-center gap-2">
-              <ErrorIcon />
-              <Typography className="p-0 text-sm">
-                Enter the OTP we sent to your email address
-              </Typography>
-            </Grid>
+            <Typography className="p-0 text-sm">
+              Enter the OTP we sent to your email address
+            </Typography>
           </Grid>
           {errorMessage.non_field_errors && (
             <Grid className="w-full p-4 mt-4 bg-zinc-500 flex flex-col gap-3">

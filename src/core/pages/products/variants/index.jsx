@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { Box, Grid, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import { useGetPendingsQuery } from "../../state/api";
-import Header from "../../components/Header";
+import { useGetPendingsQuery } from "../../../state/api";
+import Header from "../../../components/Header";
 // import Manage from "./Manage";
-import DataGridCustomToolbar from "../../components/DataGridCustomToolbar";
+import DataGridCustomToolbar from "../../../components/DataGridCustomToolbar";
 import Upload from "./Upload";
+
+
 
 const Pendings = () => {
   const theme = useTheme();
@@ -50,7 +52,25 @@ const Pendings = () => {
     },
     {
       field: "subscription",
-      headerName: "Features",
+      headerName: "Variant",
+      sortable: false,
+      flex: 1,
+    },
+    {
+      field: "email",
+      headerName: "Sub-variant",
+      sortable: false,
+      flex: 1,
+    },
+    {
+      field: "firstName",
+      headerName: "RP",
+      sortable: false,
+      flex: 1,
+    },
+    {
+      field: "ip",
+      headerName: "IP",
       sortable: false,
       flex: 1,
     },
@@ -70,7 +90,7 @@ const Pendings = () => {
   return (
     <Box m="1.5rem 2.5rem">
       <Grid className="w-full flex justify-between">
-        <Header title="Products" />
+        <Header title="Variants" />
         <Upload />
       </Grid>
       <Box
