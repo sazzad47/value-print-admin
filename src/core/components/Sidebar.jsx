@@ -12,7 +12,7 @@ import CategoryIcon from "@mui/icons-material/Category";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import AllInboxIcon from "@mui/icons-material/AllInbox";
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
-import FeaturedPlayListIcon from "@mui/icons-material/FeaturedPlayList";
+// import FeaturedPlayListIcon from "@mui/icons-material/FeaturedPlayList";
 import HomeIcon from '@mui/icons-material/Home';
 import InfoIcon from '@mui/icons-material/Info';
 import ContactMailIcon from '@mui/icons-material/ContactMail';
@@ -91,13 +91,13 @@ const SidebarComponent = ({ isSidebarOpen }) => {
                 >
                   Categories
                 </MenuItem>
-                <MenuItem
+                {/* <MenuItem
                   active={window.location.pathname === "/products"}
                   component={<Link to="/products" className="link" />}
                   icon={<FeaturedPlayListIcon />}
                 >
                   Products
-                </MenuItem>
+                </MenuItem> */}
                 <MenuItem
                   active={window.location.pathname === "/products/variants"}
                   component={<Link to="/products/variants" className="link" />}
