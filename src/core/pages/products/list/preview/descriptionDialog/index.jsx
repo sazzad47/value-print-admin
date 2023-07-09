@@ -72,16 +72,16 @@ export default function DescriptionDialog({ openDialog, setOpenDialog, data }) {
             <Tab label="FAQs" />
           </Tabs>
           <TabPanel value={value} index={0}>
-            <Information />
+            <Information setOpenDialog={setOpenDialog} data={data} />
           </TabPanel>
           <TabPanel value={value} index={1}>
-            <Templates />
+            <Templates setOpenDialog={setOpenDialog} data={data} />
           </TabPanel>
           <TabPanel value={value} index={2}>
-            <Artwork />
+            <Artwork setOpenDialog={setOpenDialog} data={data} />
           </TabPanel>
           <TabPanel value={value} index={3}>
-            <Faqs />
+            <Faqs setOpenDialog={setOpenDialog} data={data} />
           </TabPanel>
         </div>
       </Dialog>

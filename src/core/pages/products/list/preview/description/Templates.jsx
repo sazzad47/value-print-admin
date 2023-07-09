@@ -48,7 +48,7 @@ const TemplateContent = ({ item }) => {
   return (
     <div className="flex flex-col">
       <Divider />
-      <div className="flex items-center justify-between pt-2 pb-3 px-4">
+      <div className="flex items-center justify-between pt-3 pb-3 px-4">
         <Typography className="font-bold">{item.format}</Typography>
         <div>
           <FaFilePdf className="cursor-pointer text-lg" onClick={handleDownloadPdf} />
