@@ -3,7 +3,7 @@ import { Box, Button, Grid, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import Header from "../../../components/Header";
 import DataGridCustomToolbar from "../../../components/DataGridCustomToolbar";
-import { useGetCategoriesQuery } from "../../../state/api/product";
+import { useGetProductsQuery } from "../../../state/api/product";
 import Manage from "./Manage";
 import AddIcon from '@mui/icons-material/Add';
 import { Link } from 'react-router-dom';
@@ -13,7 +13,7 @@ import { useSelector } from "react-redux";
 const CategoriesPage = () => {
   const theme = useTheme();
   const { category } = useSelector((state) => state.global) || [];
-  const { data, isFetching, refetch } = useGetCategoriesQuery({});
+  const { data, isFetching, refetch } = useGetProductsQuery({});
   
   const {isCreated, isDeleted, isEdited} = category;
 
@@ -37,14 +37,26 @@ const CategoriesPage = () => {
       flex: 1,
     },
     {
-      field: "name",
+      field: "category_name",
       headerName: "Category Name",
       sortable: false,
       flex: 1,
     },
     {
-      field: "products_count",
-      headerName: "Total Products",
+      field: "name",
+      headerName: "Product Name",
+      sortable: false,
+      flex: 1,
+    },
+    {
+      field: "rp",
+      headerName: "RP",
+      sortable: false,
+      flex: 1,
+    },
+    {
+      field: "dp",
+      headerName: "DP",
       sortable: false,
       flex: 1,
     },
@@ -67,8 +79,8 @@ const CategoriesPage = () => {
   return (
     <Box m="1.5rem 2.5rem">
        <Grid className="w-full flex justify-between">
-        <Header title="Categories" />
-        <Link to="/products/categories/create" ><Button className='text-white' startIcon={<AddIcon/>} variant="contained">Create</Button></Link> 
+        <Header title="Products" />
+        <Link to="/products/list/create" ><Button className='text-white' startIcon={<AddIcon/>} variant="contained">Create</Button></Link> 
       </Grid>
       <Box
         height="80vh"

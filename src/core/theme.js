@@ -61,9 +61,13 @@ export const tokensLight = reverseTokens(tokensDark);
 
 // mui theme settings
 export const themeSettings = (mode) => {
+  const textColor = mode === "dark" ? "#ffffff" : "#000000";
   return {
     palette: {
       mode: mode,
+      text: {
+        primary: textColor,
+      },
       ...(mode === "dark"
         ? {
             // palette values for dark mode

@@ -111,7 +111,13 @@ export default function Manage({ params }) {
       >
         <MenuItem
           component={Link}
-          to={`/products/categories/${params.row.id}/edit`}
+          to={`/products/list/${params.row.id}/preview`}
+        >
+          Preview
+        </MenuItem>
+        <MenuItem
+          component={Link}
+          to={`/products/list/${params.row.id}/edit`}
         >
           Edit
         </MenuItem>

@@ -9,7 +9,7 @@ import {
 import FlexBetween from "./FlexBetween";
 import { Button, Grid } from "@mui/material";
 
-const DataGridCustomToolbar = ({setGetData}) => {
+const DataGridCustomToolbar = ({refetch}) => {
   return (
     <GridToolbarContainer>
       <FlexBetween width="100%" mb='1rem' >
@@ -19,11 +19,11 @@ const DataGridCustomToolbar = ({setGetData}) => {
           <GridToolbarExport />
         </FlexBetween>
         <Grid className="hidden md:block">
-        <Button startIcon={<RefreshIcon/>}>Refresh</Button>
+        <Button startIcon={<RefreshIcon/>} onClick={()=> refetch()} >Refresh</Button>
         </Grid>
       </FlexBetween>
       <Grid className="block md:hidden mb-2">
-        <Button startIcon={<RefreshIcon/>}>Refresh</Button>
+        <Button startIcon={<RefreshIcon/>} onClick={()=> refetch()} >Refresh</Button>
         </Grid>
     </GridToolbarContainer>
   );

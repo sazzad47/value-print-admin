@@ -99,11 +99,11 @@ const SidebarComponent = ({ isSidebarOpen }) => {
                   Products
                 </MenuItem> */}
                 <MenuItem
-                  active={window.location.pathname === "/products/variants"}
-                  component={<Link to="/products/variants" className="link" />}
+                  active={window.location.pathname === "/products/list"}
+                  component={<Link to="/products/list" className="link" />}
                   icon={<AssistantIcon />}
                 >
-                  Variants
+                  Products
                 </MenuItem>
               </SubMenu>
               <SubMenu label="Orders" icon={<LocalGroceryStoreIcon />}>

@@ -3,6 +3,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Billing from './billingAddress/BillingAddress';
 import ChangePassword from './changePassword';
+import Header from '../../components/Header';
   
   function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -34,7 +35,8 @@ const Settings = () => {
   };
     
   return (
-        <div className='p-5'>
+        <div className='my-[1.5rem] mx-[2.5rem]'>
+          <Header title="Settings" />
         <Tabs
             TabIndicatorProps={{
               sx: {
@@ -47,6 +49,7 @@ const Settings = () => {
               "& button.Mui-selected": {
                 color: "green",
               },
+              mt: "1rem",
             }}
             value={value}
             onChange={handleChange}
