@@ -6,6 +6,9 @@ import EditIcon from "@mui/icons-material/Edit";
 import { useGetProductQuery } from "../../../../state/api/product";
 import { Oval } from "react-loader-spinner";
 import Description from "./description";
+import Features from "./featuers";
+import SideNote from "./sidenote";
+
 
 const Preview = () => {
   const params = useParams();
@@ -31,6 +34,7 @@ const Preview = () => {
         </div>
       ) : (
         <div className="my-[1.5rem] mx-[2.5rem]">
+        
           <div className="w-full flex justify-between">
             <Header title={`${data.name}`} />
             <Link to={`/products/list/${id}/edit`}>
@@ -50,13 +54,20 @@ const Preview = () => {
               </div>
               <div className="w-full h-full relative">
                 <div className="absolute w-full h-full flex items-center justify-center">
-                <img
-                  src={data.cover}
-                  alt="cover"
-                  className="object-contain w-auto h-auto max-w-full max-h-full"
-                />
+                  <img
+                    src={data.cover}
+                    alt="cover"
+                    className="object-contain w-auto h-auto max-w-full max-h-full"
+                  />
                 </div>
-                
+              </div>
+            </div>
+            <div className="relative h-auto flex w-full gap-5 mt-10">
+              <div className="w-[70%] h-[200vh]">
+                <Features data={data} />
+              </div>
+              <div className="sticky min-w-[30%] h-[60vh] top-0 flex justify-center items-center">
+                <SideNote />
               </div>
             </div>
           </div>

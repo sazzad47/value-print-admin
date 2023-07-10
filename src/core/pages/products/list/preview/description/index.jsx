@@ -23,6 +23,8 @@ const Description = ({data}) => {
         openDialog={openDialog}
         setOpenDialog={setOpenDialog}
         data={data}
+        value = {value}
+        setValue = {setValue}
       />
       <Tabs
         TabIndicatorProps={{
@@ -31,7 +33,7 @@ const Description = ({data}) => {
           },
         }}
         sx={{
-          "& button": { color: "#00f6ff", textTransform: "capitalize" },
+          "& button": { color: theme.palette.text.primary, textTransform: "capitalize" },
           "& button:focus": { outline: "none" },
           "& button.Mui-selected": {
             color: theme.palette.secondary[500],

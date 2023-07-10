@@ -16,17 +16,22 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function DescriptionDialog({ openDialog, setOpenDialog, data }) {
+export default function DescriptionDialog({
+  openDialog,
+  setOpenDialog,
+  data,
+  value,
+  setValue,
+}) {
   const theme = useTheme();
-  const [value, setValue] = React.useState(0);
-
+  
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
   const handleClose = () => {
     setOpenDialog(false);
   };
-
+  
   return (
     <div>
       <Dialog

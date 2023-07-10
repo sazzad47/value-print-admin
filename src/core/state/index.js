@@ -6,6 +6,7 @@ const initialState = {
   notification: {show: false, message: null},
   alert: {show: false, title: null, text: null, icon: null, showConfirmButton: true, confirmButtonText: null, onConfirmClick: null},
   category: {isDeleted: false, isEdited: false, isCreated: false},
+  features: {},
 };
 
 export const globalSlice = createSlice({

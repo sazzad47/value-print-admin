@@ -83,5 +83,48 @@ ring-color: #9CA3AF !important;
     -webkit-mask-image: linear-gradient(180deg, #000 60%, transparent);
   }
 
+  .ribbon {
+  width: 70%;
+  position: relative;
+  margin: 0 auto 20px;
+  padding: 10px 40px;
+  text-align: center;
+  background-color: #875e46;
+}
+
+.ribbon::before, .ribbon::after {
+  content: '';
+  width: 80px;
+  height: 100%;
+  background-color: #724b34;
+
+  /* position ribbon ends behind and slightly lower */
+  position: absolute;
+  z-index: -1;
+  top: 20px;
+  
+  /* clip ribbon end shape */
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 25% 50%);
+
+  /* draw and position the folded ribbon bit */
+  background-image: linear-gradient(45deg, transparent 50%, #5d3922 50%);
+  background-size: 20px 20px;
+  background-repeat: no-repeat;
+  background-position: bottom right;
+}
+
+.ribbon::before {
+  left: -60px;
+}
+
+.ribbon::after {
+  right: -60px;
+  transform: scaleX(-1); /* flip horizontally */
+}
+
+/* everything below is for demo appearances and not important to the concept */
 
 
+@media (max-width: 400px) {
+  .ribbon { font-size: 1.5rem; }
+}
