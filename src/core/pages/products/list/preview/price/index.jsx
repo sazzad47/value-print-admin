@@ -164,7 +164,7 @@ const Price = ({ price, setPrice, priceState, setPriceState }) => {
                       },
                     }}
                     key={index}
-                    className="w-full flex justify-between p-5"
+                    className="w-full flex items-start justify-between p-5"
                   >
                     <FormControlLabel
                       value={item.quantity}
@@ -202,7 +202,7 @@ const Price = ({ price, setPrice, priceState, setPriceState }) => {
                       },
                     }}
                     key={index}
-                    className="w-full flex justify-between p-5"
+                    className="w-full flex items-start justify-between p-5"
                   >
                     <FormControlLabel
                       value={item.quantity}
