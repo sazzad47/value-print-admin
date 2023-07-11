@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../../../../components/Header";
 import { Link, useParams } from "react-router-dom";
 import { Button } from "@mui/material";
@@ -6,14 +6,25 @@ import EditIcon from "@mui/icons-material/Edit";
 import { useGetProductQuery } from "../../../../state/api/product";
 import { Oval } from "react-loader-spinner";
 import Description from "./description";
-import Features from "./featuers";
+import Features from "./features";
 import SideNote from "./sidenote";
+import Price from "./price";
 
 
 const Preview = () => {
   const params = useParams();
   const { id } = params;
   const { data, isLoading: isGetProductLoading } = useGetProductQuery({ id });
+  const [features, setFeatures] = React.useState([...data?.features || []]);
+  const [price, setPrice] = React.useState([...data?.price || []]);
+  const [featuresState, setFeaturesState] = useState({});
+  const [priceState, setPriceState] = useState({});
+  console.log('data', data)
+  useEffect(() => {
+    if (data) {
+      setFeatures([...data.features]);
+    }
+  }, [data]);
 
   return (
     <>
@@ -63,11 +74,13 @@ const Preview = () => {
               </div>
             </div>
             <div className="relative h-auto flex w-full gap-5 mt-10">
-              <div className="w-[70%] h-[200vh]">
-                <Features data={data} />
+              <div className="w-[70%] h-auto flex flex-col gap-5">
+                <Features features={features} setFeatures={setFeatures} featuresState={featuresState} setFeaturesState={setFeaturesState} />
+                <Price price={price} setPrice={setPrice} priceState={priceState} setPriceState={setPriceState} />
+
               </div>
               <div className="sticky min-w-[30%] h-[60vh] top-0 flex justify-center items-center">
-                <SideNote />
+                <SideNote features={features} featuresState={featuresState} />
               </div>
             </div>
           </div>

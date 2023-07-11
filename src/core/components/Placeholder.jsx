@@ -3,6 +3,7 @@ import React from 'react'
 
 const Placeholder = ({text}) => {
     const theme = useTheme();
+    console.log('placeholder')
   return (
     <Box
           component="div"
@@ -37,8 +38,8 @@ const Placeholder = ({text}) => {
             },
           }}
         >
-          <div className="text-bold w-full h-full flex items-center justify-start px-5">
-           {text}
+          <div className="capitalize text-bold w-full h-full flex items-center justify-center px-5">
+           Choose {text}
           </div>
         </Box>
   )
