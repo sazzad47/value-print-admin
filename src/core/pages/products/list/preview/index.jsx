@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Header from "../../../../components/Header";
-import { Link, useParams } from "react-router-dom";
+import {
+  Link,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import { Button } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import { useGetProductQuery } from "../../../../state/api/product";
@@ -8,21 +12,29 @@ import { Oval } from "react-loader-spinner";
 import Description from "./description";
 import Features from "./features";
 import SideNote from "./sidenote";
-import Price from "./price";
-
+import Service from "./service";
 
 const Preview = () => {
   const params = useParams();
   const { id } = params;
+  const [searchParams] = useSearchParams();
+  const query = searchParams.get("service");
+
   const { data, isLoading: isGetProductLoading } = useGetProductQuery({ id });
-  const [features, setFeatures] = React.useState([...data?.features || []]);
-  const [price, setPrice] = React.useState([...data?.price || []]);
+  const [features, setFeatures] = React.useState([...(data?.features || [])]);
+  const [price, setPrice] = React.useState([...(data?.price || [])]);
+  const [services, setServices] = React.useState([
+    ...(data?.design_services || []),
+  ]);
   const [featuresState, setFeaturesState] = useState({});
   const [priceState, setPriceState] = useState({});
-  console.log('data', data)
+  console.log("data", data);
+
   useEffect(() => {
     if (data) {
       setFeatures([...data.features]);
+      setPrice([...data.price]);
+      setServices([...data.design_services]);
     }
   }, [data]);
 
@@ -45,7 +57,6 @@ const Preview = () => {
         </div>
       ) : (
         <div className="my-[1.5rem] mx-[2.5rem]">
-        
           <div className="w-full flex justify-between">
             <Header title={`${data.name}`} />
             <Link to={`/products/list/${id}/edit`}>
@@ -73,11 +84,26 @@ const Preview = () => {
                 </div>
               </div>
             </div>
-            <div className="relative h-auto flex w-full gap-5 mt-10">
+            <div className="relative min-h-auto flex w-full gap-5 mt-10">
               <div className="w-[70%] h-auto flex flex-col gap-5">
-                <Features features={features} setFeatures={setFeatures} featuresState={featuresState} setFeaturesState={setFeaturesState} />
-                <Price price={price} setPrice={setPrice} priceState={priceState} setPriceState={setPriceState} />
-
+                {query === "let_us_design" && (
+                  <Service
+                    data={data}
+                    services={services}
+                    setServices={setServices}
+                  />
+                )}
+                <Features
+                  data={data}
+                  price={price}
+                  setPrice={setPrice}
+                  priceState={priceState}
+                  setPriceState={setPriceState}
+                  features={features}
+                  setFeatures={setFeatures}
+                  featuresState={featuresState}
+                  setFeaturesState={setFeaturesState}
+                />
               </div>
               <div className="sticky min-w-[30%] h-[60vh] top-0 flex justify-center items-center">
                 <SideNote features={features} featuresState={featuresState} />

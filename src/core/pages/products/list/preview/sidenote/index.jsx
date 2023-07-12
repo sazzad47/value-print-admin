@@ -9,7 +9,7 @@ const SideNote = ({ features, featuresState }) => {
   const [searchParams] = useSearchParams();
   const query = searchParams.get("service");
   const theme = useTheme();
-  console.log("featkkk", featuresState);
+
   return (
     <>
       <div

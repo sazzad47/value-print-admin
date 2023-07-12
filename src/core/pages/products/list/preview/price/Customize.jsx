@@ -9,7 +9,6 @@ import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { Box, Grid, Typography, useTheme } from "@mui/material";
-import { BsFillPenFill } from "react-icons/bs";
 import ErrorIcon from "@mui/icons-material/Error";
 import InputField from "../../../../../components/InputField";
 
@@ -57,12 +56,12 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default function Customize({ placeholder, setFeatures }) {
+export default function Customize({ setPrice, data }) {
   const theme = useTheme();
   const [newValue, setNewValue] = React.useState({
-    title: "",
-    description: "",
+    quantity: null,
   });
+
   const [open, setOpen] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState({});
   const handleClickOpen = () => {
@@ -82,34 +81,20 @@ export default function Customize({ placeholder, setFeatures }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // Create a new value object with the title and description
+ 
+    const pricePerProduct = data.rp - (data.rp * data.dp * newValue.quantity)/100;
     const valueToAdd = {
-      photo:
-        "https://res.cloudinary.com/dhhn4nlmq/image/upload/v1688882717/WhatsApp-Image-2021-12-30-at-10.51.43-PM-removebg-preview_kug1hf.png",
-      title: newValue.title,
-      is_default: false,
-      is_popular: false,
-      description: newValue.description.substring(0, 100),
+      quantity: newValue.quantity,
+      price: pricePerProduct * newValue.quantity,
+      is_best_seller: false,
     };
 
-    // Update the features state with the new value
-    setFeatures((prevFeatures) =>
-      prevFeatures.map((feature) => {
-        if (feature.placeholder === placeholder) {
-          return {
-            ...feature,
-            value: [...feature.value, valueToAdd],
-          };
-        }
-        return feature;
-      })
-    );
+    setPrice((prevPrice) => [valueToAdd, ...prevPrice]);
 
     // Perform any additional logic or API calls with the updated features data
 
     // Reset the new value state
-    setNewValue({ title: "", description: "" });
+    setNewValue({ quantity: null });
 
     // Close the dialog
     handleClose();
@@ -117,24 +102,16 @@ export default function Customize({ placeholder, setFeatures }) {
 
   return (
     <div>
-      <Box
+      <Button
         sx={{
-          bgcolor: theme.palette.primary[600],
-          "&:hover": {
-            backgroundColor: theme.palette.primary[800],
-          },
-          color: "white",
+          backgroundColor: theme.palette.background.alt,
+          color: theme.palette.secondary[200],
         }}
+        className="mt-[30px]"
         onClick={handleClickOpen}
-        className="w-full h-full relative p-5 rounded-md cursor-pointer flex flex-col gap-5 items-center justify-center"
       >
-        <div className="w-[50px] h-[50px] relative">
-          <BsFillPenFill className="w-full h-full" />
-        </div>
-        <Typography align="center" className="font-bold text-lg">
-          Customize your choice
-        </Typography>
-      </Box>
+        Customize Quantity
+      </Button>
       <BootstrapDialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
@@ -144,7 +121,7 @@ export default function Customize({ placeholder, setFeatures }) {
           id="customized-dialog-title"
           onClose={handleClose}
         >
-          Customize {placeholder}
+          Customize Quantity
         </BootstrapDialogTitle>
         <DialogContent dividers>
           <div className="w-[25rem] max-w-full flex flex-col justify-center items-center gap-5">
@@ -168,36 +145,17 @@ export default function Customize({ placeholder, setFeatures }) {
               <div>
                 <div>
                   <label
-                    htmlFor={placeholder}
+                    htmlFor="Quantity"
                     className="block mb-3 text-sm font-semibold text-secondaryTheme"
                   >
-                    {placeholder}
+                    Quantity
                   </label>
                   <InputField
                     inputProps={{
                       type: "text",
-                      name: "title",
-                      id: "title",
-                      value: newValue.title,
-                      onChange: handleChange,
-                      setErrorMessage: setErrorMessage,
-                      errorMessages: errorMessage,
-                    }}
-                  />
-                </div>
-                <div className="mt-3">
-                  <label
-                    htmlFor="description"
-                    className="block mb-3 text-sm font-semibold text-secondaryTheme"
-                  >
-                    Description
-                  </label>
-                  <InputField
-                    inputProps={{
-                      type: "text",
-                      name: "description",
-                      id: "description",
-                      value: newValue.description,
+                      name: "quantity",
+                      id: "quantity",
+                      value: newValue.quantity,
                       onChange: handleChange,
                       setErrorMessage: setErrorMessage,
                       errorMessages: errorMessage,
@@ -205,7 +163,7 @@ export default function Customize({ placeholder, setFeatures }) {
                   />
                 </div>
                 <Button
-                  disabled={!newValue.title || !newValue.description}
+                  disabled={!newValue.quantity}
                   className="normal-case text-slate-200 bg-stone-500 hover:bg-stone-600"
                   type="submit"
                   fullWidth
