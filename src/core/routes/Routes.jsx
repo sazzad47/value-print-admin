@@ -10,8 +10,8 @@ import Categories from "../pages/products/categories";
 import CreateCategory from "../pages/products/categories/Create";
 import EditCategory from "../pages/products/categories/Edit";
 import ProductList from "../pages/products/list";
-import CreateProduct from "../pages/products/list/Create";
-import EditProduct from "../pages/products/list/Edit";
+import CreateProduct from "../pages/products/list/create";
+import EditProduct from "../pages/products/list/edit";
 import ViewProduct from "../pages/products/list/preview";
 
 

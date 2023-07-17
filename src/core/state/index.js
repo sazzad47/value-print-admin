@@ -4,6 +4,7 @@ const initialState = {
   mode: "dark",
   access_token: null,
   notification: {show: false, message: null},
+  fileLoading: false,
   alert: {show: false, title: null, text: null, icon: null, showConfirmButton: true, confirmButtonText: null, onConfirmClick: null},
   category: {isDeleted: false, isEdited: false, isCreated: false},
   features: {},
@@ -25,6 +26,9 @@ export const globalSlice = createSlice({
     handleNotification: (state, action) => {
       state.notification = action.payload
     },
+    handleFileLoading: (state, action) => {
+      state.fileLoading = action.payload
+    },
     handleAlert: (state, action) => {
       state.alert = action.payload
     },
@@ -37,6 +41,6 @@ export const globalSlice = createSlice({
   },
 });
 
-export const { setMode, setUserToken, unSetUserToken, handleNotification, handleAlert, setCategory } = globalSlice.actions;
+export const { setMode, setUserToken, unSetUserToken, handleNotification, handleAlert, setCategory, handleFileLoading } = globalSlice.actions;
 
 export default globalSlice.reducer;

@@ -2,7 +2,7 @@ import ErrorIcon from "@mui/icons-material/Error";
 import { Grid, TextField, Typography } from "@mui/material";
 
 const InputField = ({ inputProps }) => {
-  const { type, name, id, label, value, onChange, setErrorMessage } =
+  const { type, name, id, label, value, onChange, setErrorMessage, multiline, minRows } =
     inputProps;
 
     const errorMessages = inputProps.errorMessages || {};
@@ -11,6 +11,8 @@ const InputField = ({ inputProps }) => {
     <div>
       <TextField
         type={type}
+        multiline={multiline}
+        minRows={minRows}
         name={name}
         value={value}
         required

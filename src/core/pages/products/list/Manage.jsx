@@ -2,7 +2,7 @@ import { Button, Menu, MenuItem, useTheme} from "@mui/material";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import { useDeleteCategoryMutation } from "../../../state/api/product";
+import { useDeleteProductMutation } from "../../../state/api/product";
 import { useDispatch, useSelector } from "react-redux";
 import { setCategory } from "../../../state";
 
@@ -10,7 +10,7 @@ import { setCategory } from "../../../state";
 export default function Manage({ params }) {
   const theme = useTheme();
   const dispatch = useDispatch();
-  const [deleteCategory, { isLoading }] = useDeleteCategoryMutation()
+  const [deleteProduct, { isLoading }] = useDeleteProductMutation()
   const { access_token } = useSelector((state) => state.global);
   const [anchorEl, setAnchorEl] = useState(null);
   const openMenu = Boolean(anchorEl);
@@ -22,7 +22,7 @@ export default function Manage({ params }) {
   };
   
   const handleDelete = async () => {
-    const response = await deleteCategory({id: params.row.id, access_token});
+    const response = await deleteProduct({id: params.row.id, access_token});
 
     if ("data" in response) {
       dispatch(setCategory({
@@ -34,7 +34,7 @@ export default function Manage({ params }) {
   const handleConfirm = () => {
     Swal.fire({
       title: 'Are you sure?',
-      text: "Are you sure you want to delete this category?",
+      text: "Are you sure you want to delete this product?",
       showDenyButton: true,
       showCancelButton: true,
       confirmButtonText: `${isLoading ? "Deleting..." : "Delete"}`,
@@ -59,7 +59,7 @@ export default function Manage({ params }) {
         })
       } else if (result.isDenied) {
         Swal.fire({
-          title: "Category wasn't deleted!",
+          title: "Product wasn't deleted!",
           icon: "info",
           background: theme.palette.primary.light,
           color: theme.palette.secondary[100],
@@ -109,12 +109,12 @@ export default function Manage({ params }) {
         transformOrigin={{ horizontal: "left", vertical: "top" }}
         anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
       >
-        <MenuItem
+        {/* <MenuItem
           component={Link}
           to={`/products/list/${params.row.id}/preview`}
         >
           Preview
-        </MenuItem>
+        </MenuItem> */}
         <MenuItem
           component={Link}
           to={`/products/list/${params.row.id}/edit`}

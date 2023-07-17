@@ -49,14 +49,14 @@ const CategoriesPage = () => {
       flex: 1,
     },
     {
-      field: "rp",
-      headerName: "RP",
+      field: "starting_quantity",
+      headerName: "SQ",
       sortable: false,
       flex: 1,
     },
     {
-      field: "dp",
-      headerName: "DP",
+      field: "starting_price",
+      headerName: "SP",
       sortable: false,
       flex: 1,
     },
@@ -74,7 +74,6 @@ const CategoriesPage = () => {
     },
   ];
 
-  
 
   return (
     <Box m="1.5rem 2.5rem">

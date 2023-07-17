@@ -28,7 +28,7 @@ const Preview = () => {
   ]);
   const [featuresState, setFeaturesState] = useState({});
   const [priceState, setPriceState] = useState({});
-  console.log("data", data);
+
 
   useEffect(() => {
     if (data) {
