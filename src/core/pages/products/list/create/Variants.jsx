@@ -213,19 +213,19 @@ const Variants = ({
   };
 
   useEffect(() => {
-    const isSubvariantNotEmpty = productData.variants.value.some((variant) => {
-      return (
-        variant.subvariant &&
-        variant.subvariant.value &&
-        variant.subvariant.value.some((subvariant) => {
-          return Object.values(subvariant).some(
-            (value) => value !== false && value !== "" && value.length > 1
-          );
-        })
-      );
-    });
-
-    console.log("isSubvariantNotEmpty", isSubvariantNotEmpty);
+    const isSubvariantNotEmpty = productData?.variants?.value?.some(
+      (variant) => {
+        return (
+          variant?.subvariant &&
+          variant?.subvariant?.value &&
+          variant?.subvariant?.value?.some((subvariant) => {
+            return Object.values(subvariant).some(
+              (value) => value !== false && value !== "" && value.length > 1
+            );
+          })
+        );
+      }
+    );
 
     setIsPresentSubvariant(isSubvariantNotEmpty);
   }, [productData.variants]);
@@ -258,7 +258,7 @@ const Variants = ({
         }}
       />
       <Typography className="text-md font-bold mt-3 mb-2"> Options </Typography>
-      {productData.variants.value.map((variant, index) => (
+      {productData?.variants?.value?.map((variant, index) => (
         <Grid container key={index} spacing={2} className="mb-3">
           <Grid item xs={12}>
             {index > 0 && (
@@ -424,16 +424,13 @@ const Variants = ({
                 Upload photo
               </div>
               {variant.photo && (
-                <div>
+                <div className="w-[150px] h-[140px] relative">
                   {" "}
-                  <a
-                    className="text-white"
-                    href={variant.photo}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Uploaded
-                  </a>{" "}
+                  <img
+                    className="text-white w-full h-full absolute"
+                    src={variant.photo}
+                    alt=""
+                  />
                 </div>
               )}
               <label className="block">
@@ -712,16 +709,13 @@ const Variants = ({
                           Upload photo
                         </div>
                         {subvariant.photo && (
-                          <div>
+                          <div className="w-[150px] h-[140px] relative">
                             {" "}
-                            <a
-                              className="text-white"
-                              href={subvariant.photo}
-                              target="_blank"
-                              rel="noreferrer"
-                            >
-                              Uploaded
-                            </a>{" "}
+                            <img
+                              className="text-white w-full h-full absolute"
+                              src={subvariant.photo}
+                              alt=""
+                            />
                           </div>
                         )}
                         <label className="block">

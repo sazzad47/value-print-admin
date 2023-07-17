@@ -134,10 +134,10 @@ const Templates = ({
                     Upload Image
                   </div>
                   {item.image && (
-                    <div>
+                    <div className="w-[150px] h-[140px] relative">
                       {" "}
                       <img
-                        className="text-white"
+                        className="text-white w-full h-full absolute"
                         src={item.image}
                         alt=""
                       />

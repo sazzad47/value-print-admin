@@ -120,12 +120,12 @@ const SidebarComponent = ({ isSidebarOpen }) => {
                 </MenuItem>
                 <MenuItem icon={<AllInboxIcon />}>All</MenuItem>
               </SubMenu>
-              <SubMenu label="Pages" icon={<WalletRoundedIcon />}>
+              {/* <SubMenu label="Pages" icon={<WalletRoundedIcon />}>
                 <MenuItem icon={<HomeIcon />}>Home</MenuItem>
                 <MenuItem icon={<InfoIcon />}>About</MenuItem>
                 <MenuItem icon={<ContactMailIcon />}>Contact</MenuItem>
                 <MenuItem icon={<AttachMoneyIcon />}>Payment</MenuItem>
-              </SubMenu>
+              </SubMenu> */}
               <MenuItem
                 active={window.location.pathname === "/transactions"}
                 component={<Link to="/transactions" className="link" />}
@@ -133,13 +133,13 @@ const SidebarComponent = ({ isSidebarOpen }) => {
               >
                 Transactions
               </MenuItem>
-              <MenuItem
+              {/* <MenuItem
                 active={window.location.pathname === "/reviews"}
                 component={<Link to="/reviews" className="link" />}
                 icon={<ReviewsIcon />}
               >
                 Reviews
-              </MenuItem>
+              </MenuItem> */}
               <MenuItem
                 active={window.location.pathname === "/settings"}
                 component={<Link to="/settings" className="link" />}

@@ -213,17 +213,19 @@ const Variants = ({
   };
 
   useEffect(() => {
-    const isSubvariantNotEmpty = productData?.variants?.value?.some((variant) => {
-      return (
-        variant?.subvariant &&
-        variant?.subvariant?.value &&
-        variant?.subvariant?.value?.some((subvariant) => {
-          return Object.values(subvariant).some(
-            (value) => value !== false && value !== "" && value.length > 1
-          );
-        })
-      );
-    });
+    const isSubvariantNotEmpty = productData?.variants?.value?.some(
+      (variant) => {
+        return (
+          variant?.subvariant &&
+          variant?.subvariant?.value &&
+          variant?.subvariant?.value?.some((subvariant) => {
+            return Object.values(subvariant).some(
+              (value) => value !== false && value !== "" && value.length > 1
+            );
+          })
+        );
+      }
+    );
 
     setIsPresentSubvariant(isSubvariantNotEmpty);
   }, [productData.variants]);
@@ -422,16 +424,13 @@ const Variants = ({
                 Upload photo
               </div>
               {variant.photo && (
-                <div>
+                <div className="w-[150px] h-[140px] relative">
                   {" "}
-                  <a
-                    className="text-white"
-                    href={variant.photo}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Uploaded
-                  </a>{" "}
+                  <img
+                    className="text-white w-full h-full absolute"
+                    src={variant.photo}
+                    alt=""
+                  />
                 </div>
               )}
               <label className="block">
@@ -710,16 +709,13 @@ const Variants = ({
                           Upload photo
                         </div>
                         {subvariant.photo && (
-                          <div>
+                          <div className="w-[150px] h-[140px] relative">
                             {" "}
-                            <a
-                              className="text-white"
-                              href={subvariant.photo}
-                              target="_blank"
-                              rel="noreferrer"
-                            >
-                              Uploaded
-                            </a>{" "}
+                            <img
+                              className="text-white w-full h-full absolute"
+                              src={subvariant.photo}
+                              alt=""
+                            />
                           </div>
                         )}
                         <label className="block">

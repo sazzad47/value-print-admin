@@ -378,10 +378,14 @@ const Features = ({
                     Upload photo
                   </div>
                   {value.photo && (
-                    <div>
-                      {" "}
-                      <img className="text-white" src={value.photo} alt="" />
-                    </div>
+                    <div className="w-[150px] h-[140px] relative">
+                    {" "}
+                    <img
+                      className="text-white w-full h-full absolute"
+                      src={value.photo}
+                      alt=""
+                    />
+                  </div>
                   )}
                   <label className="block">
                     <span className="sr-only">Upload a photo</span>

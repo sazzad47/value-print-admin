@@ -144,9 +144,13 @@ const General = ({
                 Upload photo
               </div>
               {productData.photo && (
-                <div>
+                <div className="w-[150px] h-[140px] relative">
                   {" "}
-                  <img className="text-white" src={productData.photo} alt="" />
+                  <img
+                    className="text-white w-full h-full absolute"
+                    src={productData.photo}
+                    alt=""
+                  />
                 </div>
               )}
 
@@ -166,10 +170,14 @@ const General = ({
                 Upload cover photo
               </div>
               {productData.cover && (
-                <div>
-                  {" "}
-                  <img className="text-white" src={productData.cover} alt="" />
-                </div>
+                <div className="w-[150px] h-[140px] relative">
+                {" "}
+                <img
+                  className="text-white w-full h-full absolute"
+                  src={productData.cover}
+                  alt=""
+                />
+              </div>
               )}
 
               <label className="block">

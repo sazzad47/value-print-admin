@@ -245,7 +245,7 @@ export default function CreateProductPage() {
                       ]}
                     />
                   ) : (
-                    "Publish"
+                    "Updated"
                   )
                 ) : (
                   "Next"
