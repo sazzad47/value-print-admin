@@ -76,9 +76,7 @@ const Edit = () => {
     if ("error" in response) {
       if ("data" in response.error) {
         const errorData = response.error.data;
-        if ("errors" in errorData) {
-          setErrorMessage(errorData.errors);
-        }
+        setErrorMessage(errorData);
       }
     }
 
@@ -165,6 +163,14 @@ const Edit = () => {
                     errorMessages: errorMessage,
                   }}
                 />
+                 {errorMessage.name && (
+                  <Grid className="flex items-center mt-2 gap-2 text-white">
+                    <ErrorIcon />
+                    <Typography className="p-0 text-sm">
+                      {errorMessage.name}
+                    </Typography>
+                  </Grid>
+                )}
               </Grid>
               <Grid item xs={12} md={6}>
                 <div className="block mb-3 text-sm font-semibold text-secondaryTheme">
@@ -191,6 +197,14 @@ const Edit = () => {
                     className="block w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded-[5px] file:rounded-r-none file:border-0 file:h-[56px] file:cursor-pointer file:text-sm file:font-semibold file:bg-gray-900 file:text-white hover:file:bg-gray-900/2 common-input cursor-pointer rounded-md text-secondaryTheme"
                   />
                 </label>
+                {errorMessage.photo && (
+                  <Grid className="flex items-center mt-2 gap-2 text-white">
+                    <ErrorIcon />
+                    <Typography className="p-0 text-sm">
+                      {errorMessage.photo}
+                    </Typography>
+                  </Grid>
+                )}
               </Grid>
               <Grid item xs={12} md={6}>
                 <div className="block mb-3 text-sm font-semibold text-secondaryTheme">
@@ -217,6 +231,14 @@ const Edit = () => {
                     className="block w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded-[5px] file:rounded-r-none file:border-0 file:h-[56px] file:cursor-pointer file:text-sm file:font-semibold file:bg-gray-900 file:text-white hover:file:bg-gray-900/2 common-input cursor-pointer rounded-md text-secondaryTheme"
                   />
                 </label>
+                {errorMessage.cover && (
+                  <Grid className="flex items-center mt-2 gap-2 text-white">
+                    <ErrorIcon />
+                    <Typography className="p-0 text-sm">
+                      {errorMessage.cover}
+                    </Typography>
+                  </Grid>
+                )}
               </Grid>
               <Grid item xs={12}>
                 <label
@@ -238,6 +260,14 @@ const Edit = () => {
                     errorMessages: errorMessage,
                   }}
                 />
+                 {errorMessage.information && (
+                  <Grid className="flex items-center mt-2 gap-2 text-white">
+                    <ErrorIcon />
+                    <Typography className="p-0 text-sm">
+                      {errorMessage.information}
+                    </Typography>
+                  </Grid>
+                )}
               </Grid>
             </Grid>
             <Grid container spacing={2}>

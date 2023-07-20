@@ -5,12 +5,14 @@ import { useParams } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import ErrorIcon from "@mui/icons-material/Error";
-import {
-  useCreateCategoryMutation,
-} from "../../../state/api/product";
+import { useCreateCategoryMutation } from "../../../state/api/product";
 import { ColorRing } from "react-loader-spinner";
 import { useDispatch, useSelector } from "react-redux";
-import { handleFileLoading, handleNotification, setCategory } from "../../../state";
+import {
+  handleFileLoading,
+  handleNotification,
+  setCategory,
+} from "../../../state";
 import { imageUpload } from "../../../utils/imageUpload";
 import InputField from "../../../components/InputField";
 
@@ -20,8 +22,13 @@ const Create = () => {
   const params = useParams();
   const { id } = params;
   const { access_token } = useSelector((state) => state.global);
- 
-  const [clientData, setClientData] = useState({name: "", photo: "", cover: "", information: ""});
+
+  const [clientData, setClientData] = useState({
+    name: "",
+    photo: "",
+    cover: "",
+    information: "",
+  });
   const [createCategory, { isLoading: isCreateCategoryLoading }] =
     useCreateCategoryMutation({ data: clientData, id, access_token });
 
@@ -49,7 +56,6 @@ const Create = () => {
     }
   };
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const response = await createCategory({
@@ -61,29 +67,29 @@ const Create = () => {
     if ("error" in response) {
       if ("data" in response.error) {
         const errorData = response.error.data;
-        if ("errors" in errorData) {
-          setErrorMessage(errorData.errors);
-        }
+        setErrorMessage(errorData);
       }
     }
 
     if ("data" in response) {
-      dispatch(setCategory({
-        isCreated: true
-      }))
+      dispatch(
+        setCategory({
+          isCreated: true,
+        })
+      );
       dispatch(
         handleNotification({
           show: true,
           message: "Category added successfully",
         })
       );
-      setClientData({name: ""})
+      setClientData({ name: "" });
     }
   };
-  
+
   return (
     <>
-    {fileLoading ? (
+      {fileLoading ? (
         <div className="w-full h-[70vh] flex items-center justify-center">
           Uploading to cloudinary...
         </div>
@@ -126,60 +132,84 @@ const Create = () => {
                     errorMessages: errorMessage,
                   }}
                 />
+                 {errorMessage.name && (
+                  <Grid className="flex items-center mt-2 gap-2 text-white">
+                    <ErrorIcon />
+                    <Typography className="p-0 text-sm">
+                      {errorMessage.name}
+                    </Typography>
+                  </Grid>
+                )}
               </Grid>
               <Grid item xs={12} md={6}>
-              <div className="block mb-3 text-sm font-semibold text-secondaryTheme">
-                Upload photo
-              </div>
-              {clientData.photo && (
-                <div className="w-[150px] h-[140px] relative mb-2">
-                  {" "}
-                  <img
-                    className="text-white w-full h-full absolute"
-                    src={clientData.photo}
-                    alt=""
-                  />
+                <div className="block mb-3 text-sm font-semibold text-secondaryTheme">
+                  Upload photo
                 </div>
-              )}
+                {clientData.photo && (
+                  <div className="w-[150px] h-[140px] relative mb-2">
+                    {" "}
+                    <img
+                      className="text-white w-full h-full absolute"
+                      src={clientData.photo}
+                      alt=""
+                    />
+                  </div>
+                )}
 
-              <label className="block">
-                <span className="sr-only">Upload a photo</span>
-                <input
-                  type="file"
-                  accept="image/*"
-                  name="photo"
-                  onChange={handleFileInputChange}
-                  className="block w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded-[5px] file:rounded-r-none file:border-0 file:h-[56px] file:cursor-pointer file:text-sm file:font-semibold file:bg-gray-900 file:text-white hover:file:bg-gray-900/2 common-input cursor-pointer rounded-md text-secondaryTheme"
-                />
-              </label>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <div className="block mb-3 text-sm font-semibold text-secondaryTheme">
-                Upload cover photo
-              </div>
-              {clientData.cover && (
-                <div className="w-[150px] h-[140px] relative mb-2">
-                {" "}
-                <img
-                  className="text-white w-full h-full absolute"
-                  src={clientData.cover}
-                  alt=""
-                />
-              </div>
-              )}
+                <label className="block">
+                  <span className="sr-only">Upload a photo</span>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    name="photo"
+                    onChange={handleFileInputChange}
+                    className="block w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded-[5px] file:rounded-r-none file:border-0 file:h-[56px] file:cursor-pointer file:text-sm file:font-semibold file:bg-gray-900 file:text-white hover:file:bg-gray-900/2 common-input cursor-pointer rounded-md text-secondaryTheme"
+                  />
+                </label>
+                {errorMessage.photo && (
+                  <Grid className="flex items-center mt-2 gap-2 text-white">
+                    <ErrorIcon />
+                    <Typography className="p-0 text-sm">
+                      {errorMessage.photo}
+                    </Typography>
+                  </Grid>
+                )}
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <div className="block mb-3 text-sm font-semibold text-secondaryTheme">
+                  Upload cover photo
+                </div>
+                {clientData.cover && (
+                  <div className="w-[150px] h-[140px] relative mb-2">
+                    {" "}
+                    <img
+                      className="text-white w-full h-full absolute"
+                      src={clientData.cover}
+                      alt=""
+                    />
+                  </div>
+                )}
 
-              <label className="block">
-                <span className="sr-only">Upload a photo</span>
-                <input
-                  type="file"
-                  accept="image/*"
-                  name="cover"
-                  onChange={handleFileInputChange}
-                  className="block w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded-[5px] file:rounded-r-none file:border-0 file:h-[56px] file:cursor-pointer file:text-sm file:font-semibold file:bg-gray-900 file:text-white hover:file:bg-gray-900/2 common-input cursor-pointer rounded-md text-secondaryTheme"
-                />
-              </label>
-            </Grid>
-            <Grid item xs={12} >
+                <label className="block">
+                  <span className="sr-only">Upload a photo</span>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    name="cover"
+                    onChange={handleFileInputChange}
+                    className="block w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded-[5px] file:rounded-r-none file:border-0 file:h-[56px] file:cursor-pointer file:text-sm file:font-semibold file:bg-gray-900 file:text-white hover:file:bg-gray-900/2 common-input cursor-pointer rounded-md text-secondaryTheme"
+                  />
+                </label>
+                {errorMessage.cover && (
+                  <Grid className="flex items-center mt-2 gap-2 text-white">
+                    <ErrorIcon />
+                    <Typography className="p-0 text-sm">
+                      {errorMessage.cover}
+                    </Typography>
+                  </Grid>
+                )}
+              </Grid>
+              <Grid item xs={12}>
                 <label
                   htmlFor="information"
                   className="block mb-3 text-sm font-semibold text-secondaryTheme"
@@ -234,11 +264,10 @@ const Create = () => {
               </Grid>
             </Grid>
           </Box>
-        </Box>)}
+        </Box>
+      )}
     </>
   );
 };
-
-
 
 export default Create;
