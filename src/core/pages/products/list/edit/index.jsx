@@ -155,7 +155,7 @@ export default function CreateProductPage() {
       id,
       access_token,
     });
-    console.log('response')
+    console.log('response', response)
     if ("error" in response) {
       if ("data" in response.error) {
         const errorData = response.error.data;
