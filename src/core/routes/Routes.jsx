@@ -1,5 +1,4 @@
 import Dashboard from "../pages/dashboard";
-import Pendings from "../pages/pendings";
 import Transactions from "../pages/transactions";
 import Login from "../pages/login";
 import ResetPasswordEmail from "../pages/resetPassword";
@@ -13,6 +12,10 @@ import ProductList from "../pages/products/list";
 import CreateProduct from "../pages/products/list/create";
 import EditProduct from "../pages/products/list/edit";
 import ViewProduct from "../pages/products/list/preview";
+import AllOrders from "../pages/orders/all";
+import OrderDetails from "../pages/orders/OrderDetails";
+import PendingOrders from "../pages/orders/pendings";
+import ApprovedOrders from "../pages/orders/approved";
 
 
 const routes = [
@@ -25,7 +28,10 @@ const routes = [
     { path: "/products/list/create", component: <CreateProduct /> },
     { path: "/products/list/:id/edit", component: <EditProduct /> },
     { path: "/products/list/:id/preview", component: <ViewProduct /> },
-    { path: "/orders/pending", component: <Pendings /> },
+    { path: "/orders/pending", component: <PendingOrders /> },
+    { path: "/orders/approved", component: <ApprovedOrders /> },
+    { path: "/orders/all", component: <AllOrders /> },
+    { path: "/orders/:id", component: <OrderDetails /> },
     { path: "/transactions", component: <Transactions /> },
     { path: "/reviews", component: <Reviews /> },
     { path: "/settings", component: <Settings /> },

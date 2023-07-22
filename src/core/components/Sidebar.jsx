@@ -10,7 +10,7 @@ import InventoryIcon from "@mui/icons-material/Inventory";
 import AllInboxIcon from "@mui/icons-material/AllInbox";
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 // import FeaturedPlayListIcon from "@mui/icons-material/FeaturedPlayList";
-import AssistantIcon from '@mui/icons-material/Assistant';
+import AssistantIcon from "@mui/icons-material/Assistant";
 import { Box, useTheme } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
@@ -108,10 +108,19 @@ const SidebarComponent = ({ isSidebarOpen }) => {
                   {" "}
                   Pending{" "}
                 </MenuItem>
-                <MenuItem icon={<BubbleChartRoundedIcon />}>
-                  Processing
+                <MenuItem 
+                 active={window.location.pathname === "/orders/approved"}
+                 component={<Link to="/orders/approved" className="link" />}
+                icon={<BubbleChartRoundedIcon />}>
+                  Approved
                 </MenuItem>
-                <MenuItem icon={<AllInboxIcon />}>All</MenuItem>
+                <MenuItem
+                  active={window.location.pathname === "/orders/all"}
+                  component={<Link to="/orders/all" className="link" />}
+                  icon={<AllInboxIcon />}
+                >
+                  All
+                </MenuItem>
               </SubMenu>
               {/* <SubMenu label="Pages" icon={<WalletRoundedIcon />}>
                 <MenuItem icon={<HomeIcon />}>Home</MenuItem>

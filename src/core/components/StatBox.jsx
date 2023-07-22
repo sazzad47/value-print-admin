@@ -1,8 +1,9 @@
 import React from "react";
 import { Box, Typography, useTheme } from "@mui/material";
 import FlexBetween from "./FlexBetween";
+import { Oval } from "react-loader-spinner";
 
-const StatBox = ({ title, value, increase, icon, description }) => {
+const StatBox = ({ isLoading, value, increase, icon, description }) => {
   const theme = useTheme();
   return (
     <Box
@@ -17,21 +18,36 @@ const StatBox = ({ title, value, increase, icon, description }) => {
       borderRadius="0.55rem"
     >
       <FlexBetween>
-        <Typography variant="h6" sx={{ color: theme.palette.secondary[100] }}>
-        {increase}
+
+      {isLoading ? (
+        <div className="">
+          <Oval
+            height={25}
+            width={25}
+            color="#4fa94d"
+            wrapperStyle={{}}
+            wrapperClass=""
+            visible={true}
+            ariaLabel="oval-loading"
+            secondaryColor="#4fa94d"
+            strokeWidth={2}
+            strokeWidthSecondary={2}
+          />
+        </div>
+      ) : (
+        <Typography
+          variant="h3"
+          fontWeight="600"
+          sx={{ color: theme.palette.secondary[200] }}
+        >
+          {value}
         </Typography>
-        {icon}
+      )}
+              {icon}
       </FlexBetween>
 
-      <Typography
-        variant="h3"
-        fontWeight="600"
-        sx={{ color: theme.palette.secondary[200] }}
-      >
-        {value}
-      </Typography>
       <FlexBetween gap="1rem">
-        <Typography>{description}</Typography>
+        <Typography className="mt-5">{description}</Typography>
       </FlexBetween>
     </Box>
   );

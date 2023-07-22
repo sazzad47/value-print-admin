@@ -1,88 +1,71 @@
-import { Button, Menu, MenuItem } from "@mui/material";
-import { useState } from "react";
+import { Button, useTheme} from "@mui/material";
+import Swal from "sweetalert2";
+import { useSelector } from "react-redux";
+import { useDeleteTransactionMutation } from "../../state/api/user";
 
 
- export default function Manage ({params, setGetData}) {
+export default function Manage({ params }) {
+  const theme = useTheme();
+  const [deleteTransaction, { isLoading }] = useDeleteTransactionMutation()
+  const { access_token } = useSelector((state) => state.global);
  
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+  const handleDelete = async () => {
+     const response = await deleteTransaction({id: params.row.id, access_token});
+     console.log('respone', response)
   };
-  const handleClose = () => {
-    setAnchorEl(null);
+  
+  const handleConfirm = () => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "Are you sure you want to delete this transaction?",
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: `${isLoading ? "Deleting..." : "Delete"}`,
+      denyButtonText: 'No',
+      icon: "warning",
+      background: theme.palette.primary.light,
+      color: theme.palette.secondary[100],
+      customClass: {
+        actions: 'my-actions',
+        cancelButton: 'order-1 right-gap',
+        confirmButton: 'order-3',
+        denyButton: 'order-2',
+      },
+      preConfirm: handleDelete,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: 'Deleted successfully!',
+          icon: "success",
+          background: theme.palette.primary.light,
+          color: theme.palette.secondary[100],
+        })
+      } else if (result.isDenied) {
+        Swal.fire({
+          title: "Category wasn't deleted!",
+          icon: "info",
+          background: theme.palette.primary.light,
+          color: theme.palette.secondary[100],
+        })
+      }
+    })
+    
   };
  
-  const handleApproved = async (params) => {
-    // dispatch({ type: GlobalTypes.LOADING, payload: true });
-    // let userId = params.row.userId;
-    // await patchData(`members/pendings/${userId}`, { status: 'approved' });
-    // setGetData(prevState => !prevState );
-  };
-  const handleDeclined = async () => {
-    // dispatch({ type: GlobalTypes.LOADING, payload: true });
-    // let userId = params.row.userId;
-    
-    // await patchData(`members/pendings/${userId}`, { status: 'declined' });
-    // setGetData(prevState => !prevState );
-   
-  };
 
-  // const handleDelete = () => {
-  //   let userId = params.row.userId;
-    
-  //   deleteData(`members/pendings/${userId}`);
-  //   setGetData(true);
-  // };
-    
-    return (
-        <>
+  return (
+    <>
       <strong>
         <Button
-          onClick={handleClick}
-          aria-controls={open ? "manage-menu" : undefined}
-          aria-haspopup="true"
-          aria-expanded={open ? "true" : undefined}
+          onClick={handleConfirm}
           variant="contained"
           color="primary"
           size="small"
           style={{ marginLeft: 16 }}
         >
-          Manage
+          Delete
         </Button>
       </strong>
-      <Menu
-        anchorEl={anchorEl}
-        id="manage-menu"
-        open={open}
-        onClose={handleClose}
-        onClick={handleClose}
-        PaperProps={{
-          elevation: 0,
-          sx: {
-            boxShadow: "0px 0px 25px 25px rgba(0,0,0,0.2)",
-            backgroundColor: "",
-            color: "",
-            overflow: "visible",
-            mt: 1,
-            "& .MuiAvatar-root": {
-              width: 32,
-              height: 32,
-            },
-          },
-        }}
-        transformOrigin={{ horizontal: "left", vertical: "top" }}
-        anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
-      >
-        <MenuItem onClick={()=> handleApproved(params)} className="">
-          Approve
-        </MenuItem>
-        <MenuItem onClick={handleDeclined} className="">
-          Decline
-        </MenuItem>
-      </Menu>
-        </>
-    );
-  };
-
- 
+    </>
+  );
+}

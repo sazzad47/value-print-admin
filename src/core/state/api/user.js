@@ -126,6 +126,63 @@ export const userApi = createApi({
         },
       }),
     }),
+    getTransactions: builder.query({
+      query: () => ({
+        url: 'transactions/all/',
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+        },
+      }),
+    }),
+    deleteTransaction: builder.mutation({
+      query: ({ id, access_token }) => ({
+        url: `transactions/${id}/delete/`,
+        method: "DELETE",
+        headers: {
+          "Content-type": "application/json",
+          authorization: `Bearer ${access_token}`,
+        },
+      }),
+    }),
+    getAdminOrders: builder.query({
+      query: () => ({
+        url: 'orders/admin/all/',
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+        },
+      }),
+    }),
+    updateOrderStage: builder.mutation({
+      query: ({stage, order_id}) => ({
+        url: `orders/admin/update/${order_id}/`,
+        method: "PATCH",
+        body: {stage},
+        headers: {
+          "Content-type": "application/json",
+        },
+      }),
+    }),
+    getOrdersByStage: builder.query({
+      query: ({stage}) => ({
+        url: `orders/${stage}/`,
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+        },
+      }),
+    }),
+    getOrderDetails: builder.query({
+      query: ({ access_token, id }) => ({
+        url: `orders/${id}/`,
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+          authorization: `Bearer ${access_token}`,
+        },
+      }),
+    }),
   }),
 });
 
@@ -141,4 +198,10 @@ export const {
   useUpdateBillingAddressMutation,
   useGetProfileQuery,
   useUpdateProfileMutation,
+  useGetTransactionsQuery,
+  useDeleteTransactionMutation,
+  useGetAdminOrdersQuery,
+  useGetOrderDetailsQuery,
+  useUpdateOrderStageMutation,
+  useGetOrdersByStageQuery
 } = userApi;

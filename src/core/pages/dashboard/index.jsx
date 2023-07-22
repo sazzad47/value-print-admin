@@ -1,51 +1,68 @@
 import React from "react";
 import FlexBetween from "../../components/FlexBetween";
 import Header from "../../components/Header";
-import PendingActionsIcon from '@mui/icons-material/PendingActions';
-import TaskAltIcon from '@mui/icons-material/TaskAlt';
-import ShopIcon from '@mui/icons-material/Shop';
-import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+import PendingActionsIcon from "@mui/icons-material/PendingActions";
+import TaskAltIcon from "@mui/icons-material/TaskAlt";
+import ShopIcon from "@mui/icons-material/Shop";
+import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import { Box, useTheme, useMediaQuery } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import { useGetDashboardQuery } from "../../state/api";
 import StatBox from "../../components/StatBox";
-
+import {
+  useGetAdminOrdersQuery,
+  useGetOrdersByStageQuery,
+  useGetTransactionsQuery,
+} from "../../state/api/user";
+import Manage from "../orders/pendings/Manage";
 
 const Dashboard = () => {
   const theme = useTheme();
   const isNonMediumScreens = useMediaQuery("(min-width: 1200px)");
-  const { data, isLoading } = useGetDashboardQuery();
-
-  const columns = [
-    {
-      field: "_id",
-      headerName: "ID",
-      flex: 1,
-    },
-    {
-      field: "userId",
-      headerName: "Email",
-      flex: 1,
-    },
-    {
-      field: "createdAt",
-      headerName: "Date",
-      flex: 1,
-    },
-    {
-      field: "products",
-      headerName: "Status",
-      flex: 0.5,
-      sortable: false,
-      renderCell: (params) => params.value.length,
-    },
-    {
-      field: "cost",
-      headerName: "Manage",
-      flex: 1,
-      renderCell: (params) => `$${Number(params.value).toFixed(2)}`,
-    },
-  ];
+  const { data: pendingOrders, isLoading: isLoadingPendingOrders } =
+    useGetOrdersByStageQuery({ stage: "pending" });
+  const { data: completeOrders, isLoading: isLoadingCompleteOrders } =
+    useGetOrdersByStageQuery({ stage: "completed" });
+  const { data: allOrders, isLoading: isLoadingAllOrders } =
+    useGetAdminOrdersQuery({ stage: "completed" });
+  const { data: allTransactions, isLoading: isLoadingAllTransactions } =
+    useGetTransactionsQuery({});
+  console.log('pending', pendingOrders)
+    const columns = [
+      {
+        field: "date",
+        headerName: "Date",
+        flex: 1,
+      },
+      {
+        field: "id",
+        headerName: "Order ID",
+        sortable: false,
+        flex: 1,
+      },
+      {
+        field: "email",
+        headerName: "Email",
+        sortable: false,
+        flex: 1,
+      },
+      {
+        field: "stage",
+        headerName: "Stage",
+        sortable: false,
+        flex: 1,
+      },
+      {
+        headerName: "Manage",
+        sortable: false,
+        disableColumnMenu: true,
+        renderCell: (params) => {
+          return <Manage params={params} />;
+        },
+        flex: 1,
+        headerAlign: "center",
+        align: "center",
+      },
+    ];
 
   return (
     <Box m="1.5rem 2.5rem">
@@ -63,9 +80,10 @@ const Dashboard = () => {
       >
         <StatBox
           title="Members"
-          value={data && data.totalCustomers}
+          value={pendingOrders && pendingOrders.length}
           increase="200+"
           description="Pending orders"
+          isLoading={isLoadingPendingOrders}
           icon={
             <PendingActionsIcon
               sx={{ color: theme.palette.secondary[300], fontSize: "26px" }}
@@ -74,9 +92,10 @@ const Dashboard = () => {
         />
         <StatBox
           title="Members"
-          value={data && data.totalCustomers}
+          value={completeOrders && completeOrders.length}
           increase="200+"
-          description="Total users"
+          description="Complete orders"
+          isLoading={isLoadingCompleteOrders}
           icon={
             <TaskAltIcon
               sx={{ color: theme.palette.secondary[300], fontSize: "26px" }}
@@ -85,22 +104,24 @@ const Dashboard = () => {
         />
         <StatBox
           title="Members"
-          value={data && data.totalCustomers}
+          value={allOrders && allOrders.length}
           increase="200+"
-          description="Total transactions"
+          description="Total Orders"
+          isLoading={isLoadingAllOrders}
           icon={
-            <MonetizationOnIcon
+            <ShopIcon
               sx={{ color: theme.palette.secondary[300], fontSize: "26px" }}
             />
           }
         />
         <StatBox
           title="Members"
-          value={data && data.totalCustomers}
+          value={allTransactions && allTransactions.length}
           increase="200+"
-          description="Total sales"
+          description="Total Transactions"
+          isLoading={isLoadingAllTransactions}
           icon={
-            <ShopIcon
+            <MonetizationOnIcon
               sx={{ color: theme.palette.secondary[300], fontSize: "26px" }}
             />
           }
@@ -146,12 +167,16 @@ const Dashboard = () => {
             },
           }}
         >
-        
           <DataGrid
-            loading={isLoading || !data}
-            getRowId={(row) => row._id}
-            rows={(data && data.transactions) || []}
+            loading={isLoadingPendingOrders|| !pendingOrders}
+            rows={(pendingOrders && pendingOrders) || []}
+            getRowId={(row) => row.id}
             columns={columns}
+            rowCount={(pendingOrders && pendingOrders.length) || 0}
+            rowsPerPageOptions={[10, 20, 100]}
+            pagination
+            paginationMode="client"
+            sortingMode="client"
           />
         </Box>
       </Box>

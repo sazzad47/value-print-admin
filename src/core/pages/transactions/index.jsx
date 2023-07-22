@@ -1,35 +1,21 @@
-import React, { useState } from "react";
-import { Box, useTheme } from "@mui/material";
+import React from "react";
+import { Box, Grid, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import { useGetPendingsQuery } from "../../state/api";
 import Header from "../../components/Header";
 // import Manage from "./Manage";
 import DataGridCustomToolbar from "../../components/DataGridCustomToolbar";
+import { useGetTransactionsQuery } from "../../state/api/user";
+import Manage from "./Manage";
 
 
 
-const Pendings = () => {
+const Transactions = () => {
   const theme = useTheme();
-  // const [getData, setGetData] = useState(false);
-  // values to be sent to the backend
-  const [page, setPage] = useState(0);
-  const [pageSize, setPageSize] = useState(20);
-  const [sort, setSort] = useState({});
-  const { data, isFetching } = useGetPendingsQuery({
-    page,
-    pageSize,
-    sort: JSON.stringify(sort),
-  });
-
-  // useEffect(() => {
-  //   refetch();
-  //   setGetData(false);
-  //   dispatch({ type: GlobalTypes.LOADING, payload: false });
-  // }, [getData]);
+  const {data, isFetching, refetch} = useGetTransactionsQuery({});
 
   const columns = [
     {
-      field: "createdAt",
+      field: "created_at",
       headerName: "Date",
       flex: 1,
       renderCell: (params) => {
@@ -44,25 +30,25 @@ const Pendings = () => {
       },
     },
     {
-      field: "userId",
+      field: "id",
       headerName: "Transaction ID",
       sortable: false,
       flex: 1,
     },
     {
-      field: "subscription",
-      headerName: "Order ID",
+      field: "payment_id",
+      headerName: "Payment ID",
       sortable: false,
       flex: 1,
     },
     {
-      field: "email",
-      headerName: "Email",
+      field: "amount",
+      headerName: "Amount",
       sortable: false,
       flex: 1,
     },
     {
-      field: "firstName",
+      field: "status",
       headerName: "Status",
       sortable: false,
       flex: 1,
@@ -71,9 +57,9 @@ const Pendings = () => {
       headerName: "Manage",
       sortable: false,
       disableColumnMenu: true,
-      // renderCell: (params) => {
-      //   return <Manage params={params} setGetData={setGetData} />;
-      // },
+      renderCell: (params) => {
+        return <Manage params={params} />;
+      },
       flex: 1,
       headerAlign: "center",
       align: "center",
@@ -82,61 +68,63 @@ const Pendings = () => {
 
   return (
     <Box m="1.5rem 2.5rem">
-      <Header
-        title="Transactions"
-      />
-      <Box
-        height="80vh"
-        sx={{
-          mt: "1rem",
-          "& .MuiDataGrid-root": {
-            border: "none",
-          },
-          "& .MuiDataGrid-cell": {
-            borderBottom: "none",
-          },
-          "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: theme.palette.background.alt,
-            color: theme.palette.secondary[100],
-            borderBottom: "none",
-          },
-          "& .MuiDataGrid-virtualScroller": {
-            backgroundColor: theme.palette.primary.light,
-          },
-          "& .MuiDataGrid-footerContainer": {
-            backgroundColor: theme.palette.background.alt,
-            color: theme.palette.secondary[100],
-            borderTop: "none",
-          },
-          "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
-            color: `${theme.palette.secondary[200]} !important`,
-          },
-        }}
-      >
-        <DataGrid
-          loading={isFetching || !data}
-          // loading={isFetching || loading || !data}
-          getRowId={(row) => row._id}
-          rows={(data && data.pendingMembers) || []}
-          columns={columns}
-          rowCount={(data && data.total) || 0}
-          rowsPerPageOptions={[20, 50, 100]}
-          pagination
-          page={page}
-          pageSize={pageSize}
-          paginationMode="server"
-          sortingMode="server"
-          onPageChange={(newPage) => setPage(newPage)}
-          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-          onSortModelChange={(newSortModel) => setSort(...newSortModel)}
-          components={{ Toolbar: DataGridCustomToolbar }}
-          // componentsProps={{
-          //   toolbar: { setGetData },
-          // }}
-        />
-      </Box>
-    </Box>
+    <Grid className="w-full flex justify-between">
+     <Header title="Transactions" />
+   </Grid>
+   <Box
+     height="80vh"
+     sx={{
+       mt: "1rem",
+       "& .MuiDataGrid-root": {
+         border: "none",
+       },
+       "& .MuiDataGrid-cell": {
+         borderBottom: "none",
+       },
+       "& .MuiDataGrid-columnHeaders": {
+         backgroundColor: theme.palette.background.alt,
+         color: theme.palette.secondary[100],
+         borderBottom: "none",
+       },
+       "& .MuiDataGrid-virtualScroller": {
+         backgroundColor: theme.palette.primary.light,
+       },
+       "& .MuiDataGrid-footerContainer": {
+         backgroundColor: theme.palette.background.alt,
+         color: theme.palette.secondary[100],
+         borderTop: "none",
+       },
+       "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
+         color: `${theme.palette.secondary[200]} !important`,
+       },
+     }}
+   >
+     <DataGrid
+       loading={isFetching || !data}
+       // loading={isFetching || loading || !data}
+       getRowId={(row) => row.id}
+       rows={(data && data) || []}
+       columns={columns}
+       rowCount={(data && data.length) || 0}
+       rowsPerPageOptions={[10, 20, 100]}
+       pagination
+       paginationMode="client"
+       sortingMode="client"
+       components={{ Toolbar: DataGridCustomToolbar }}
+       componentsProps={{
+         toolbar: { refetch },
+       }}
+       initialState={{
+         columns: {
+           columnVisibilityModel: {
+             id: false,
+           },
+         },
+       }}
+     />
+   </Box>
+ </Box>
   );
 };
 
-export default Pendings;
+export default Transactions;
