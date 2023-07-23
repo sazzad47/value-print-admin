@@ -165,7 +165,7 @@ const View = () => {
                                   key !== "price" &&
                                   key !== "quantity" &&
                                   key !== "delivery_type" &&
-                                  key !== "deliver_charge" &&
+                                  key !== "/delivery_charge" &&
                                   key !== "total_amount"
                                 ) {
                                   return (
@@ -203,7 +203,7 @@ const View = () => {
                                   S${item.price}
                                 </Typography>
                                 <Typography className=" text-end pr-2 font-bold">
-                                  S${item.deliver_charge}
+                                  S${item./delivery_charge}
                                 </Typography>
                                 <Typography className=" text-end pr-2 font-bold">
                                   S${item.total_amount}
