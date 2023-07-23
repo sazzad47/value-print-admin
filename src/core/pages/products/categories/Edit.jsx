@@ -73,6 +73,8 @@ const Edit = () => {
       access_token,
     });
 
+    console.log('respone', response)
+
     if ("error" in response) {
       if ("data" in response.error) {
         const errorData = response.error.data;

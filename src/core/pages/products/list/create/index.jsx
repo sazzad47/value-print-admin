@@ -22,8 +22,6 @@ import Price from "./Price";
 export default function CreateProductPage() {
   const dispatch = useDispatch();
   const { fileLoading } = useSelector((state) => state.global);
-
-
   const { access_token } = useSelector((state) => state.global);
 
   const [createProduct, { isLoading: isCreatingProduct }] =
