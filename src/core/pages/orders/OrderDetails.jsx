@@ -42,7 +42,7 @@ const View = () => {
   const handleOrder = async (stage) => {
     const response = await updateOrderStage({ stage, order_id: id });
 
-   if ("data" in response) {
+    if ("data" in response) {
       dispatch(
         handleNotification({
           show: true,
@@ -166,7 +166,8 @@ const View = () => {
                                   key !== "quantity" &&
                                   key !== "delivery_type" &&
                                   key !== "/delivery_charge" &&
-                                  key !== "total_amount"
+                                  key !== "total_amount" &&
+                                  key !== "artwork"
                                 ) {
                                   return (
                                     <div key={key}>
@@ -179,6 +180,21 @@ const View = () => {
                                 }
                                 return null;
                               })}
+                              {item.artwork && (
+                                <div>
+                                  <span className=" text-xs font-medium">
+                                    Artwork file:
+                                  </span>{" "}
+                                  <a
+                                    href={item.artwork}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="text-xs"
+                                  >
+                                    View
+                                  </a>
+                                </div>
+                              )}
                             </div>
                             <div className="w-full md:w-[50%] flex pl-0 md:pl-2">
                               <div className="w-full md:w-[60%] flex flex-col gap-2">
@@ -203,8 +219,9 @@ const View = () => {
                                   S${item.price}
                                 </Typography>
                                 <Typography className=" text-end pr-2 font-bold">
-                                  S${item./delivery_charge}
+                                  S${item.delivery_charge}
                                 </Typography>
+
                                 <Typography className=" text-end pr-2 font-bold">
                                   S${item.total_amount}
                                 </Typography>
@@ -245,7 +262,9 @@ const View = () => {
         anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
       >
         <MenuItem onClick={() => handleOrder("approved")}>Approve</MenuItem>
-        <MenuItem onClick={() => handleOrder("completed")}>Mark as complete</MenuItem>
+        <MenuItem onClick={() => handleOrder("completed")}>
+          Mark as complete
+        </MenuItem>
         <MenuItem onClick={() => handleOrder("cancelled")}>Cancel</MenuItem>
       </Menu>
     </div>
