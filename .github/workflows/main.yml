@@ -1,0 +1,46 @@
+name: 🚀 Deploy on push main
+
+on: 
+  push:
+    branches:    
+      - main
+
+jobs:
+  web-deploy:
+    name: 🎉 Deploy
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [18.12.1]
+    
+    steps:
+    - name: 🚚 Get latest code
+      uses: actions/checkout@v3
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+    
+    - name: 'Create env file'
+      run: |
+        touch .env
+        echo REACT_APP_BASE_BACKEND_URL=${{ secrets.REACT_APP_BASE_BACKEND_URL }} >> .env
+        echo REACT_APP_CLOUD_API=${{ secrets.REACT_APP_CLOUD_API_KEY }} >> .env
+        echo REACT_APP_CLOUD_NAME=${{ secrets.REACT_APP_CLOUD_NAME }} >> .env
+        echo REACT_APP_CLOUD_UPLOAD_PRESET=${{ secrets.REACT_APP_CLOUD_UPLOAD_PRESET }} >> .env
+        cat .env
+
+    - name: 🔨 Build Project 
+      run: |
+        npm install
+        npm run build
+
+    - name: 📂 Sync files
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      with:
+        server: ${{ secrets.SERVER }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        local-dir: ./build/
