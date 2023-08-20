@@ -183,6 +183,8 @@ export default function CreateProductPage() {
     }
   }, [data]);
 
+  console.log('productData', productData)
+
   return (
     <div className="my-[1.5rem] mx-[2.5rem]">
       {fileLoading ? (

@@ -1,10 +1,18 @@
 export const initialProductData = {
     category: "",
     name: "",
+    slogan: "BUSINESS BASICS",
     photo: "",
     rating: 5,
     starting_quantity: null,
     starting_price: null,
+    intro_photo: "https://res.cloudinary.com/dhhn4nlmq/image/upload/v1692375262/business-card_ekguoz.png",
+    short_description: "Your name, your business, and every detail you need on high quality card stock. Even if it is the most basic business tool, there's a reason they're still around after 500 years",
+    perfect_for: [
+      "Good first impressions",
+      "Making connections",
+      "Impressing your date"
+    ],
     cover: "",
     information: "",
     options: [
