@@ -27,7 +27,7 @@ jobs:
       run: |
         touch .env
         echo REACT_APP_BASE_BACKEND_URL=${{ secrets.REACT_APP_BASE_BACKEND_URL }} >> .env
-        echo REACT_APP_CLOUD_API=${{ secrets.REACT_APP_CLOUD_API_KEY }} >> .env
+        echo REACT_APP_CLOUD_API=${{ secrets.REACT_APP_CLOUD_API }} >> .env
         echo REACT_APP_CLOUD_NAME=${{ secrets.REACT_APP_CLOUD_NAME }} >> .env
         echo REACT_APP_CLOUD_UPLOAD_PRESET=${{ secrets.REACT_APP_CLOUD_UPLOAD_PRESET }} >> .env
         cat .env
