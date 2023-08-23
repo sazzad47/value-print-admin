@@ -73,6 +73,18 @@ export const initialProductData = {
       ]
     }
   ],
+  intro: [
+    {
+      placeholder: "",
+      value: [
+        {
+          photo: "",
+          title: "",
+          features: [""]
+        },
+      ],
+    }
+  ],
   variants: {
     placeholder: "",
     value: [

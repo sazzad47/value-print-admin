@@ -94,10 +94,15 @@ const Features = ({
     newData.features[parentIndex].value.push(newValue);
     setProductData(newData);
   };
+  
+
+  console.log("cloudAPI", process.env.REACT_APP_CLOUD_API);
+  console.log("preset", process.env.REACT_APP_CLOUD_UPLOAD_PRESET);
+  console.log("cloudName", process.env.REACT_APP_CLOUD_NAME);
 
   return (
     <Grid className="mb-2 w-full">
-      <div className="mb-2 w-full px-3 py-2 bg-gray-700 text-sm">
+      <div className="mb-5 w-full px-3 py-2 bg-gray-700 text-sm">
         {" "}
         In this section, you have to configure the feaures that doesn't cuase any variations
         in the pricing of the product.

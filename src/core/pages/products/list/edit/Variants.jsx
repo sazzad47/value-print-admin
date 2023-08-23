@@ -235,8 +235,7 @@ const Variants = ({
       <div className="mb-2 w-full px-3 py-2 bg-gray-700 text-sm">
         {" "}
         In this section, you have to configure the feaures that cuase variations
-        in the pricing of the product. Please skip this section if the product
-        doesn't have any variation in the pricing.{" "}
+        in the pricing of the product.
       </div>
       <InputField
         inputProps={{

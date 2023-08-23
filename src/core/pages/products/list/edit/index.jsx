@@ -1,5 +1,4 @@
 import * as React from "react";
-import MobileStepper from "@mui/material/MobileStepper";
 import Button from "@mui/material/Button";
 import { ColorRing, Oval } from "react-loader-spinner";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,7 +8,7 @@ import Options from "./Options";
 import DesignServices from "./DesignServices";
 import Artwork from "./Artwork";
 import Faq from "./Faq";
-import Features from "./Features";
+import Features from "./Intro";
 import Variants from "./Variants";
 import General from "./General";
 import { useState } from "react";
@@ -21,132 +20,32 @@ import Templates from "./Templates";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import Price from "./Price";
+import Box from "@mui/material/Box";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import { tabsClasses } from "@mui/material/Tabs";
+import { useTheme } from "@mui/material";
 
-export default function CreateProductPage() {
+
+export default function EditProductPage() {
+  const theme = useTheme();
+  const [value, setValue] = useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
   const params = useParams();
   const { id } = params;
   const { access_token } = useSelector((state) => state.global);
   const [productData, setProductData] = useState(initialProductData);
   const { data, isLoading: isGetProductLoading } = useGetProductQuery({ id });
   const [updateProduct, { isLoading: isUpdateProductLoading }] =
-  useUpdateProductMutation({ data: productData, id, access_token });
+    useUpdateProductMutation({ data: productData, id, access_token });
   const dispatch = useDispatch();
   const { fileLoading } = useSelector((state) => state.global);
 
   const [errorMessage, setErrorMessage] = useState({});
-
-  const steps = [
-    {
-      label: "General Information",
-      content: (
-        <General
-          productData={productData}
-          setProductData={setProductData}
-          errorMessage={errorMessage}
-          setErrorMessage={setErrorMessage}
-        />
-      ),
-    },
-    {
-      label: "Options",
-      content: (
-        <Options
-          productData={productData}
-          setProductData={setProductData}
-          errorMessage={errorMessage}
-          setErrorMessage={setErrorMessage}
-        />
-      ),
-    },
-    {
-      label: "Design Services",
-      content: (
-        <DesignServices
-          productData={productData}
-          setProductData={setProductData}
-          errorMessage={errorMessage}
-          setErrorMessage={setErrorMessage}
-        />
-      ),
-    },
-    {
-      label: "Artwork",
-      content: (
-        <Artwork
-          productData={productData}
-          setProductData={setProductData}
-          errorMessage={errorMessage}
-          setErrorMessage={setErrorMessage}
-        />
-      ),
-    },
-    {
-      label: "Templates",
-      content: (
-        <Templates
-          productData={productData}
-          setProductData={setProductData}
-          errorMessage={errorMessage}
-          setErrorMessage={setErrorMessage}
-        />
-      ),
-    },
-    {
-      label: "FAQs",
-      content: (
-        <Faq
-          productData={productData}
-          setProductData={setProductData}
-          errorMessage={errorMessage}
-          setErrorMessage={setErrorMessage}
-        />
-      ),
-    },
-    {
-      label: "Features",
-      content: (
-        <Features
-          productData={productData}
-          setProductData={setProductData}
-          errorMessage={errorMessage}
-          setErrorMessage={setErrorMessage}
-        />
-      ),
-    },
-    {
-      label: "Variants",
-      content: (
-        <Variants
-          productData={productData}
-          setProductData={setProductData}
-          errorMessage={errorMessage}
-          setErrorMessage={setErrorMessage}
-        />
-      ),
-    },
-    {
-      label: "Pricing",
-      content: (
-        <Price
-          productData={productData}
-          setProductData={setProductData}
-          errorMessage={errorMessage}
-          setErrorMessage={setErrorMessage}
-        />
-      ),
-    },
-  ];
-
-  const [activeStep, setActiveStep] = React.useState(0);
-  const maxSteps = steps.length;
-
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -155,7 +54,7 @@ export default function CreateProductPage() {
       id,
       access_token,
     });
-    console.log('response', response)
+    console.log("response", response);
     if ("error" in response) {
       if ("data" in response.error) {
         const errorData = response.error.data;
@@ -175,7 +74,6 @@ export default function CreateProductPage() {
     }
   };
 
-
   useEffect(() => {
     if (data) {
       const dataCopy = JSON.parse(JSON.stringify(data));
@@ -183,93 +81,207 @@ export default function CreateProductPage() {
     }
   }, [data]);
 
-  console.log('productData', productData)
-
   return (
-    <div className="my-[1.5rem] mx-[2.5rem]">
-      {fileLoading ? (
-        <div className="w-full h-[70vh] flex items-center justify-center">
-          Uploading to cloudinary...
-        </div>
-      ) : isGetProductLoading ? (
-        <div className="w-full h-[70vh] flex items-center justify-center">
-          <Oval
-            height={30}
-            width={30}
-            color="#4fa94d"
-            wrapperStyle={{}}
-            wrapperClass=""
-            visible={true}
-            ariaLabel="oval-loading"
-            secondaryColor="#4fa94d"
-            strokeWidth={2}
-            strokeWidthSecondary={2}
-          />
-        </div>
-      ) : (
-        <div className="mx-auto max-w-[500px] w-full">
-          <h4 className="text-xl font-bold">{steps[activeStep].label}</h4>
-          <div className="mt-5">{steps[activeStep].content}</div>
-          <MobileStepper
-            variant="text"
-            steps={maxSteps}
-            position="static"
-            activeStep={activeStep}
-            sx={{
-              background: "transparent",
-              color: "white",
-              marginTop: "3rem",
-              padding: 0,
+    <>
+      <div className="py-[4rem] px-[2.5rem]">
+        {fileLoading ? (
+          <div className="w-full h-[70vh] flex items-center justify-center">
+            Uploading to cloudinary...
+          </div>
+        ) : isGetProductLoading ? (
+          <div className="w-full h-[70vh] flex items-center justify-center">
+            <Oval
+              height={30}
+              width={30}
+              color="#4fa94d"
+              wrapperStyle={{}}
+              wrapperClass=""
+              visible={true}
+              ariaLabel="oval-loading"
+              secondaryColor="#4fa94d"
+              strokeWidth={2}
+              strokeWidthSecondary={2}
+            />
+          </div>
+        ) : (
+         
+             <Box
+          sx={{
+            flexGrow: 1,
+            width: "700px",
+            maxWidth: "100%",
+            margin: "0 auto"
+           
+          }}
+        >
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            variant="scrollable"
+            scrollButtons
+            aria-label="visible arrows tabs example"
+            TabIndicatorProps={{
+              sx: {
+                backgroundColor: "transparent",
+              },
             }}
-            nextButton={
-              <Button
-                variant="outlined"
-                onClick={
-                  activeStep === maxSteps - 1 ? handleSubmit : handleNext
-                }
-                className="focus:outline-none normal-case px-4 text-secondaryTheme"
-              >
-                {activeStep === maxSteps - 1 ? (
-                  isUpdateProductLoading ? (
-                    <ColorRing
-                      visible={true}
-                      height="30"
-                      width="30"
-                      ariaLabel="blocks-loading"
-                      wrapperStyle={{}}
-                      wrapperClass="blocks-wrapper"
-                      colors={[
-                        "#b8c480",
-                        "#B2A3B5",
-                        "#F4442E",
-                        "#51E5FF",
-                        "#429EA6",
-                      ]}
-                    />
-                  ) : (
-                    "Update"
-                  )
-                ) : (
-                  "Next"
-                )}
-              </Button>
-            }
-            backButton={
-              <Button
-                variant="outlined"
-                className={`${
-                  activeStep === 0 ? "hidden" : "d-flex"
-                } focus:outline-none normal-case px-4 text-secondaryTheme`}
-                onClick={handleBack}
-                hidden={true}
-                disabled={activeStep === 0}
-              >
-                Back
-              </Button>
-            }
-          />
-        </div>
-      )}
+            sx={{
+              "& button": {
+                color: "white",
+                textTransform: "capitalize",
+                fontSize: "1rem",
+                backgroundColor: theme.palette.grey[600],
+                margin: "0.7rem",
+                borderRadius: "40px",
+                boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.25)",
+              },
+              "& button:focus": { outline: "none" },
+              "& button.Mui-selected": {
+                backgroundColor: theme.palette.secondary[600],
+                color: "white",
+              },
+              backgroundColor: "transparent",
+              borderTop: 0,
+              height: "5rem",
+              display: "flex",
+              alignItems: "center",
+              [`& .${tabsClasses.scrollButtons}`]: {
+                color: theme.palette.secondary[400],
+                "&.Mui-disabled": { opacity: 0.3, color: theme.palette.secondary[400] },
+              },
+            }}
+          >
+            <Tab label="General Information" />
+              <Tab label="Options" />
+              <Tab label="Design Services" />
+              <Tab label="Artwork" />
+              <Tab label="Templates" />
+              <Tab label="Faqs" />
+              <Tab label="Intro" />
+              <Tab label="Pricing" />
+          </Tabs>
+         
+          <div className="mx-auto max-w-[500px] w-full mt-[2rem]">
+            <TabPanel value={value} index={0}>
+              <General
+                productData={productData}
+                setProductData={setProductData}
+                errorMessage={errorMessage}
+                setErrorMessage={setErrorMessage}
+              />
+            </TabPanel>
+            <TabPanel value={value} index={1}>
+              <Options
+                productData={productData}
+                setProductData={setProductData}
+                errorMessage={errorMessage}
+                setErrorMessage={setErrorMessage}
+              />
+            </TabPanel>
+            <TabPanel value={value} index={2}>
+              <DesignServices
+                productData={productData}
+                setProductData={setProductData}
+                errorMessage={errorMessage}
+                setErrorMessage={setErrorMessage}
+              />
+            </TabPanel>
+            <TabPanel value={value} index={3}>
+              <Artwork
+                productData={productData}
+                setProductData={setProductData}
+                errorMessage={errorMessage}
+                setErrorMessage={setErrorMessage}
+              />
+            </TabPanel>
+            <TabPanel value={value} index={4}>
+              <Templates
+                productData={productData}
+                setProductData={setProductData}
+                errorMessage={errorMessage}
+                setErrorMessage={setErrorMessage}
+              />
+            </TabPanel>
+            <TabPanel value={value} index={5}>
+              <Faq
+                productData={productData}
+                setProductData={setProductData}
+                errorMessage={errorMessage}
+                setErrorMessage={setErrorMessage}
+              />
+            </TabPanel>
+            <TabPanel value={value} index={6}>
+              <Features
+                productData={productData}
+                setProductData={setProductData}
+                errorMessage={errorMessage}
+                setErrorMessage={setErrorMessage}
+              />
+            </TabPanel>
+            <TabPanel value={value} index={7}>
+              <Variants
+                productData={productData}
+                setProductData={setProductData}
+                errorMessage={errorMessage}
+                setErrorMessage={setErrorMessage}
+              />
+            </TabPanel>
+            <TabPanel value={value} index={8}>
+              <Price
+                productData={productData}
+                setProductData={setProductData}
+                errorMessage={errorMessage}
+                setErrorMessage={setErrorMessage}
+              />
+            </TabPanel>
+
+            <Button
+              className="mt-5"
+              variant="outlined"
+              color="secondary"
+              onClick={handleSubmit}
+            >
+              {isUpdateProductLoading ? (
+                <ColorRing
+                  visible={true}
+                  height="30"
+                  width="30"
+                  ariaLabel="blocks-loading"
+                  wrapperStyle={{}}
+                  wrapperClass="blocks-wrapper"
+                  colors={[
+                    "#b8c480",
+                    "#B2A3B5",
+                    "#F4442E",
+                    "#51E5FF",
+                    "#429EA6",
+                  ]}
+                />
+              ) : (
+                "Update"
+              )}
+            </Button>
+          </div>
+        </Box>
+        
+        
+        )}
+      </div>
+    </>
+  );
+}
+
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && <div className="">{children}</div>}
     </div>
   );
 }
