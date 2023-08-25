@@ -19,12 +19,13 @@ import {
 import Templates from "./Templates";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
-import Price from "./Price";
+// import Price from "./Price";
 import Box from "@mui/material/Box";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { tabsClasses } from "@mui/material/Tabs";
 import { useTheme } from "@mui/material";
+import Ideas from "./Ideas";
 
 
 export default function EditProductPage() {
@@ -158,6 +159,7 @@ export default function EditProductPage() {
               <Tab label="Templates" />
               <Tab label="Faqs" />
               <Tab label="Intro" />
+              <Tab label="Ideas" />
               <Tab label="Pricing" />
           </Tabs>
          
@@ -219,7 +221,7 @@ export default function EditProductPage() {
               />
             </TabPanel>
             <TabPanel value={value} index={7}>
-              <Variants
+              <Ideas
                 productData={productData}
                 setProductData={setProductData}
                 errorMessage={errorMessage}
@@ -227,13 +229,21 @@ export default function EditProductPage() {
               />
             </TabPanel>
             <TabPanel value={value} index={8}>
-              <Price
+              <Variants
                 productData={productData}
                 setProductData={setProductData}
                 errorMessage={errorMessage}
                 setErrorMessage={setErrorMessage}
               />
             </TabPanel>
+            {/* <TabPanel value={value} index={8}>
+              <Price
+                productData={productData}
+                setProductData={setProductData}
+                errorMessage={errorMessage}
+                setErrorMessage={setErrorMessage}
+              />
+            </TabPanel> */}
 
             <Button
               className="mt-5"

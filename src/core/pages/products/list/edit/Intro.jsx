@@ -107,9 +107,6 @@ const Intro = ({
     setProductData(newData);
   };
 
-  console.log("cloudAPI", process.env.REACT_APP_CLOUD_API);
-  console.log("preset", process.env.REACT_APP_CLOUD_UPLOAD_PRESET);
-  console.log("cloudName", process.env.REACT_APP_CLOUD_NAME);
 
   return (
     <Grid className="mb-2 w-full">

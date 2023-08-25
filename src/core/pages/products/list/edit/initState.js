@@ -85,6 +85,12 @@ export const initialProductData = {
       ],
     }
   ],
+  ideas: [
+    {
+      title: "",
+      photo: ""
+    }
+  ],
   variants: {
     placeholder: "",
     value: [
