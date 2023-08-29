@@ -40,7 +40,7 @@ const Faq = ({
     newData.faq.content.push({ question: "", answer: "" });
     setProductData(newData);
   };
-
+  
   return (
     <Grid className="mb-2 w-full">
       <Grid container spacing={2}>

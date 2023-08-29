@@ -58,21 +58,6 @@ export const initialProductData = {
       ]
     }
   ],
-  features: [
-    {
-      placeholder: "",
-      allow_customize: false,
-      value: [
-        {
-          is_default: false,
-          is_popular: false,
-          photo: "",
-          title: "",
-          description: ""
-        }
-      ]
-    }
-  ],
   intro: [
     {
       placeholder: "",
@@ -91,55 +76,6 @@ export const initialProductData = {
       photo: ""
     }
   ],
-  variants: {
-    placeholder: "",
-    value: [
-      {
-        is_default: false,
-        is_popular: false,
-        photo: "",
-        title: "",
-        description: "",
-        subvariant: {
-          placeholder: "",
-          value: [
-            {
-              is_default: false,
-              is_popular: false,
-              photo: "",
-              title: "",
-              description: "",
-              rp: "",
-              dp: "",
-              price: [
-                {
-                  quantity: "",
-                  price: "",
-                  is_best_seller: false
-                }
-              ]
-            }
-          ]
-        },
-        rp: "",
-        dp: "",
-        price: [
-          {
-            quantity: "",
-            price: "",
-            is_best_seller: false
-          }
-        ]
-      }
-    ]
-  },
-  rp: null,
-  dp: null,
-  price: [
-    {
-      quantity: '',
-      price: '',
-      is_best_seller: false
-    }
-  ]
+  pricing: [],
+ 
 };

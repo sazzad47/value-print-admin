@@ -83,6 +83,21 @@ ring-color: #9CA3AF !important;
 .fade {
     -webkit-mask-image: linear-gradient(180deg, #000 60%, transparent);
   }
+.may-like-heading {
+  position: relative;
+  overflow: hidden;
+}
+
+.may-like-heading:after {
+  content: "";
+  display: inline-block;
+  height: 0.5em;
+  vertical-align: bottom;
+  width: 100%;
+  margin-right: -100%;
+  margin-left: 10px;
+  border-top: 1px solid #d6d3d1;
+}
 
 
 
