@@ -29,9 +29,7 @@ import { imageUpload } from "../../../../utils/imageUpload";
 
 function MultipleTables({ productData, setProductData }) {
   const [newTableName, setNewTableName] = useState("");
-  const [tables, setTables] = useState(
-    productData?.pricing || []
-  );
+  const [tables, setTables] = useState(productData?.pricing || []);
 
   const addTable = () => {
     if (newTableName) {
@@ -244,12 +242,26 @@ function CollapsibleTable({
     setTables(updatedTables);
   };
 
+  const copyRowFromPrevious = (rowIndex, cellIndex) => {
+    if (rowIndex > 0 && rowIndex < rows.length && cellIndex >= 0 && cellIndex < columns.length) {
+      const updatedTables = [...tables];
+      const currentRow = updatedTables[tableIndex].rows[rowIndex];
+      const previousRow = updatedTables[tableIndex].rows[rowIndex - 1];
+  
+      if (previousRow.cellData.length > cellIndex) {
+        currentRow.cellData[cellIndex] = [ ...previousRow.cellData[cellIndex] ];
+        setTables(updatedTables);
+      }
+    }
+  };
+  
+
   return (
     <div>
-       <h1 className="text-xl md:text-2xl text-bold my-5 may-like-heading">
+      <h1 className="text-xl md:text-2xl text-bold my-5 may-like-heading">
         <span> Table: {table.tableName} </span>
       </h1>
-     
+
       <div className="mb-5 w-full flex items-center justify-between gap-3">
         <div className="w-full flex items-center justify-start gap-3">
           <TextField
@@ -346,6 +358,7 @@ function CollapsibleTable({
                 updateNestedCellData={updateNestedCellData}
                 deleteNestedCellData={deleteNestedCellData}
                 addNestedCellData={addNestedCellData}
+                copyRowFromPrevious={copyRowFromPrevious}
               />
             ))}
           </TableBody>
@@ -362,6 +375,7 @@ function Row(props) {
     updateNestedCellData,
     deleteNestedCellData,
     addNestedCellData,
+    copyRowFromPrevious,
   } = props;
 
   const photoInput = useRef(null);
@@ -481,9 +495,19 @@ function Row(props) {
           >
             <Collapse in={columnIndex === openCellIndex} unmountOnExit>
               <Box sx={{ margin: 1 }}>
+                <div className="w-full flex items-center justify-between my-3">
+
                 <Typography variant="h6" gutterBottom component="div">
                   {column}
                 </Typography>
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  onClick={() => copyRowFromPrevious(props.rowIndex, columnIndex)}
+                >
+                  Copy From Previous Row
+                </Button>
+                </div>
                 <Table size="small" aria-label="purchases">
                   <TableHead>
                     <TableRow>
