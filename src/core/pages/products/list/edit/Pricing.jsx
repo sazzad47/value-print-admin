@@ -161,7 +161,7 @@ function CollapsibleTable({
   const addRow = () => {
     const newRow = {
       cellData: [],
-      pricing: [{ quantity: null, price: null }],
+      pricing: [],
     };
 
     columns.forEach(() => {
@@ -382,6 +382,9 @@ function Row(props) {
   const [openCellIndex, setOpenCellIndex] = useState(-1);
   const [openPricing, setOpenPricing] = useState(false);
 
+  const [quantityString, setQuantityString] = useState(""); // State for quantity string
+  const [priceString, setPriceString] = useState(""); // State for price string
+
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [photo, setPhoto] = useState(null);
@@ -402,6 +405,34 @@ function Row(props) {
     const updatedRow = { ...row, pricing: [...row.pricing, newPricingRow] };
     props.updateRow(updatedRow);
   };
+  
+  const generateRows = () => {
+    // Parse the entered quantity and price strings into arrays
+    const quantityArray = quantityString
+      .split(" ")
+      .map((str) => parseInt(str, 10))
+      .filter((num) => !isNaN(num));
+    const priceArray = priceString
+      .split(" ")
+      .map((str) => parseFloat(str))
+      .filter((num) => !isNaN(num));
+  
+    // Check if both arrays have the same length
+    if (quantityArray.length === priceArray.length) {
+      // Create an updated row with the generated pricing information
+      const updatedRow = {
+        ...row,
+        pricing: quantityArray.map((quantity, index) => ({
+          quantity,
+          price: priceArray[index],
+        })),
+      };
+  
+      // Update the specific row with the generated pricing
+      props.updateRow(updatedRow);
+    }
+  };
+  
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -692,7 +723,25 @@ function Row(props) {
               <Typography variant="h6" gutterBottom component="div">
                 Pricing
               </Typography>
-
+              <div className="w-full flex items-start gap-3 justify-between my-[2rem]">
+        <TextField
+          fullWidth
+          label="Quantity (Space-separated numbers)"
+          variant="outlined"
+          value={quantityString}
+          onChange={(e) => setQuantityString(e.target.value)}
+        />
+        <TextField
+         fullWidth
+          label="Price (Space-separated numbers)"
+          variant="outlined"
+          value={priceString}
+          onChange={(e) => setPriceString(e.target.value)}
+        />
+        <Button className="max-w-full w-[20rem]" variant="outlined" color="secondary" onClick={generateRows}>
+          Generate Rows
+        </Button>
+      </div>
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
