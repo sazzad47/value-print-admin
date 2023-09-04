@@ -410,7 +410,7 @@ function Row(props) {
     // Parse the entered quantity and price strings into arrays
     const quantityArray = quantityString
       .split(" ")
-      .map((str) => parseInt(str, 10))
+      .map((str) => parseInt(str.replace(/,/g, ''), 10))
       .filter((num) => !isNaN(num));
     const priceArray = priceString
       .split(" ")
