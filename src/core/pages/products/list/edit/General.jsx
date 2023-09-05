@@ -17,6 +17,7 @@ import { useGetCategoriesQuery } from "../../../../state/api/product";
 import { Oval } from "react-loader-spinner";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import TextEditor from "../../../../components/TextEditor";
 
 // const ratingData = [1, 2, 4, 5];
 const General = ({
@@ -424,20 +425,8 @@ const General = ({
             </Grid>
 
             <Grid item xs={12}>
-              <InputField
-                inputProps={{
-                  type: "text",
-                  multiline: true,
-                  minRows: 3,
-                  name: "information",
-                  id: "information",
-                  label: "Product Information",
-                  value: productData.information,
-                  onChange: handleTextInputChange,
-                  setErrorMessage,
-                  errorMessages: errorMessage,
-                }}
-              />
+             
+               <TextEditor value={productData.information} state="information" setState={setProductData} />
             </Grid>
           </Grid>
         </Grid>
