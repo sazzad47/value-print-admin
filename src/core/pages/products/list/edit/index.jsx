@@ -238,7 +238,7 @@ export default function EditProductPage() {
             </TabPanel> */}
 
               <Button
-                className="mt-5"
+                className="mt-5 fixed bottom-5 right-[3.5rem]"
                 variant="outlined"
                 color="secondary"
                 onClick={handleSubmit}
