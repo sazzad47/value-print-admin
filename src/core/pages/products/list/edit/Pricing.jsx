@@ -17,6 +17,7 @@ import {
   Grid,
   Divider,
   Avatar,
+  useTheme,
 } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
@@ -26,8 +27,10 @@ import AddIcon from "@mui/icons-material/Add";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import { ThreeDots } from "react-loader-spinner";
 import { imageUpload } from "../../../../utils/imageUpload";
+import Swal from "sweetalert2";
 
 function MultipleTables({ productData, setProductData }) {
+  const theme = useTheme();
   const [newTableName, setNewTableName] = useState("");
   const [tables, setTables] = useState(productData?.pricing || []);
 
@@ -47,6 +50,45 @@ function MultipleTables({ productData, setProductData }) {
     const updatedTables = tables.filter((table, index) => index !== tableIndex);
     setTables(updatedTables);
   };
+
+  const handleConfirmDeleteTable = (tableIndex) => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "Are you sure you want to delete this table?",
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Delete",
+      denyButtonText: 'No',
+      icon: "warning",
+      background: theme.palette.primary.light,
+      color: theme.palette.secondary[100],
+      customClass: {
+        actions: 'my-actions',
+        cancelButton: 'order-1 right-gap',
+        confirmButton: 'order-3',
+        denyButton: 'order-2',
+      },
+      preConfirm: ()=> deleteTable(tableIndex),
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: 'Deleted successfully!',
+          icon: "success",
+          background: theme.palette.primary.light,
+          color: theme.palette.secondary[100],
+        })
+      } else if (result.isDenied) {
+        Swal.fire({
+          title: "Table wasn't deleted!",
+          icon: "info",
+          background: theme.palette.primary.light,
+          color: theme.palette.secondary[100],
+        })
+      }
+    })
+    
+  };
+
 
   useEffect(() => {
     // Update pricing in productData whenever rows change
@@ -79,7 +121,7 @@ function MultipleTables({ productData, setProductData }) {
             tables={tables}
             setTables={setTables}
             addTable={addTable}
-            deleteTable={deleteTable}
+            handleConfirmDeleteTable={handleConfirmDeleteTable}
           />
         </div>
       ))}
@@ -94,8 +136,10 @@ function CollapsibleTable({
   tables,
   setTables,
   table,
-  deleteTable,
+  handleConfirmDeleteTable,
 }) {
+  const theme = useTheme();
+
   const [newColumnName, setNewColumnName] = useState("");
   const [editedColumnName, setEditedColumnName] = useState("");
   const [editedColumnIndex, setEditedColumnIndex] = useState(-1);
@@ -158,6 +202,44 @@ function CollapsibleTable({
     setTables(updatedTables);
   };
 
+  const handleConfirmDeleteColumn = (index) => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "Are you sure you want to delete this column?",
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Delete",
+      denyButtonText: 'No',
+      icon: "warning",
+      background: theme.palette.primary.light,
+      color: theme.palette.secondary[100],
+      customClass: {
+        actions: 'my-actions',
+        cancelButton: 'order-1 right-gap',
+        confirmButton: 'order-3',
+        denyButton: 'order-2',
+      },
+      preConfirm: ()=> deleteColumn(index),
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: 'Deleted successfully!',
+          icon: "success",
+          background: theme.palette.primary.light,
+          color: theme.palette.secondary[100],
+        })
+      } else if (result.isDenied) {
+        Swal.fire({
+          title: "Column wasn't deleted!",
+          icon: "info",
+          background: theme.palette.primary.light,
+          color: theme.palette.secondary[100],
+        })
+      }
+    })
+    
+  };
+
   const addRow = () => {
     const newRow = {
       cellData: [],
@@ -179,6 +261,45 @@ function CollapsibleTable({
     setTables(updatedTables);
   };
 
+  const handleConfirmDeleteRow = (rowIndex) => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "Are you sure you want to delete this row?",
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Delete",
+      denyButtonText: 'No',
+      icon: "warning",
+      background: theme.palette.primary.light,
+      color: theme.palette.secondary[100],
+      customClass: {
+        actions: 'my-actions',
+        cancelButton: 'order-1 right-gap',
+        confirmButton: 'order-3',
+        denyButton: 'order-2',
+      },
+      preConfirm: ()=> deleteRow(rowIndex),
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: 'Deleted successfully!',
+          icon: "success",
+          background: theme.palette.primary.light,
+          color: theme.palette.secondary[100],
+        })
+      } else if (result.isDenied) {
+        Swal.fire({
+          title: "Row wasn't deleted!",
+          icon: "info",
+          background: theme.palette.primary.light,
+          color: theme.palette.secondary[100],
+        })
+      }
+    })
+    
+  };
+
+
   const updateRow = (rowIndex, newRow) => {
     const updatedTables = [...tables];
     updatedTables[tableIndex].rows[rowIndex] = newRow;
@@ -195,20 +316,42 @@ function CollapsibleTable({
     setTables(updatedTables);
   };
 
-  const addCellData = (rowIndex) => {
-    const updatedTables = [...tables];
-    const newRow = { ...updatedTables[tableIndex].rows[rowIndex] };
-    newRow.cellData.push({ value: "", is_popular: false, photo: "" });
-    updatedTables[tableIndex].rows[rowIndex] = newRow;
-    setTables(updatedTables);
-  };
-
-  const deleteCellData = (rowIndex, cellIndex) => {
-    const updatedTables = [...tables];
-    const newRow = { ...updatedTables[tableIndex].rows[rowIndex] };
-    newRow.cellData.splice(cellIndex, 1);
-    updatedTables[tableIndex].rows[rowIndex] = newRow;
-    setTables(updatedTables);
+  const handleConfirmDeletePricingRow = (rowIndex, pricingIndex) => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "Are you sure you want to delete this row?",
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Delete",
+      denyButtonText: 'No',
+      icon: "warning",
+      background: theme.palette.primary.light,
+      color: theme.palette.secondary[100],
+      customClass: {
+        actions: 'my-actions',
+        cancelButton: 'order-1 right-gap',
+        confirmButton: 'order-3',
+        denyButton: 'order-2',
+      },
+      preConfirm: ()=> deletePricingRow(rowIndex, pricingIndex),
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: 'Deleted successfully!',
+          icon: "success",
+          background: theme.palette.primary.light,
+          color: theme.palette.secondary[100],
+        })
+      } else if (result.isDenied) {
+        Swal.fire({
+          title: "Row wasn't deleted!",
+          icon: "info",
+          background: theme.palette.primary.light,
+          color: theme.palette.secondary[100],
+        })
+      }
+    })
+    
   };
 
   const updateNestedCellData = (
@@ -232,6 +375,44 @@ function CollapsibleTable({
       1
     );
     setTables(updatedTables);
+  };
+
+  const handleConfirmDeleteNestedCellData = (rowIndex, columnIndex, cellIndex) => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "Are you sure you want to delete this cell?",
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Delete",
+      denyButtonText: 'No',
+      icon: "warning",
+      background: theme.palette.primary.light,
+      color: theme.palette.secondary[100],
+      customClass: {
+        actions: 'my-actions',
+        cancelButton: 'order-1 right-gap',
+        confirmButton: 'order-3',
+        denyButton: 'order-2',
+      },
+      preConfirm: ()=> deleteNestedCellData(rowIndex, columnIndex, cellIndex),
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: 'Deleted successfully!',
+          icon: "success",
+          background: theme.palette.primary.light,
+          color: theme.palette.secondary[100],
+        })
+      } else if (result.isDenied) {
+        Swal.fire({
+          title: "Cell wasn't deleted!",
+          icon: "info",
+          background: theme.palette.primary.light,
+          color: theme.palette.secondary[100],
+        })
+      }
+    })
+    
   };
 
   const addNestedCellData = (rowIndex, columnIndex, newCell) => {
@@ -286,7 +467,7 @@ function CollapsibleTable({
             <Button
               variant="outlined"
               color="secondary"
-              onClick={() => deleteTable(tableIndex)}
+              onClick={() => handleConfirmDeleteTable(tableIndex)}
             >
               Delete Table
             </Button>
@@ -327,7 +508,7 @@ function CollapsibleTable({
                       <IconButton
                         aria-label="delete column"
                         size="small"
-                        onClick={() => deleteColumn(index)}
+                        onClick={() => handleConfirmDeleteColumn(index)}
                       >
                         <DeleteIcon />
                       </IconButton>
@@ -347,16 +528,12 @@ function CollapsibleTable({
                 columns={columns}
                 addRow={() => addRow()}
                 updateRow={(newRow) => updateRow(rowIndex, newRow)}
-                deleteRow={() => deleteRow(rowIndex)}
-                deletePricingRow={(pricingIndex) =>
-                  deletePricingRow(rowIndex, pricingIndex)
-                }
-                addCellData={() => addCellData(rowIndex)}
-                deleteCellData={(cellIndex) =>
-                  deleteCellData(rowIndex, cellIndex)
+                handleConfirmDeleteRow={() => handleConfirmDeleteRow(rowIndex)}
+                handleConfirmDeletePricingRow={(pricingIndex) =>
+                  handleConfirmDeletePricingRow(rowIndex, pricingIndex)
                 }
                 updateNestedCellData={updateNestedCellData}
-                deleteNestedCellData={deleteNestedCellData}
+                handleConfirmDeleteNestedCellData={handleConfirmDeleteNestedCellData}
                 addNestedCellData={addNestedCellData}
                 copyRowFromPrevious={copyRowFromPrevious}
               />
@@ -373,7 +550,7 @@ function Row(props) {
     row,
     columns,
     updateNestedCellData,
-    deleteNestedCellData,
+    handleConfirmDeleteNestedCellData,
     addNestedCellData,
     copyRowFromPrevious,
   } = props;
@@ -505,7 +682,7 @@ function Row(props) {
           <IconButton
             aria-label="delete row"
             size="small"
-            onClick={() => props.deleteRow()}
+            onClick={() => props.handleConfirmDeleteRow()}
           >
             <DeleteIcon />
           </IconButton>
@@ -680,7 +857,7 @@ function Row(props) {
                               aria-label="delete cell"
                               size="small"
                               onClick={() =>
-                                deleteNestedCellData(
+                                handleConfirmDeleteNestedCellData(
                                   props.rowIndex,
                                   columnIndex,
                                   cellIndex
@@ -781,7 +958,7 @@ function Row(props) {
                         <IconButton
                           aria-label="delete pricing"
                           size="small"
-                          onClick={() => props.deletePricingRow(pricingIndex)}
+                          onClick={() => props.handleConfirmDeletePricingRow(pricingIndex)}
                         >
                           <DeleteIcon />
                         </IconButton>
