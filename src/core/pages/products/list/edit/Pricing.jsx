@@ -21,6 +21,7 @@ import {
 } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
@@ -53,42 +54,40 @@ function MultipleTables({ productData, setProductData }) {
 
   const handleConfirmDeleteTable = (tableIndex) => {
     Swal.fire({
-      title: 'Are you sure?',
+      title: "Are you sure?",
       text: "Are you sure you want to delete this table?",
       showDenyButton: true,
       showCancelButton: true,
       confirmButtonText: "Delete",
-      denyButtonText: 'No',
+      denyButtonText: "No",
       icon: "warning",
       background: theme.palette.primary.light,
       color: theme.palette.secondary[100],
       customClass: {
-        actions: 'my-actions',
-        cancelButton: 'order-1 right-gap',
-        confirmButton: 'order-3',
-        denyButton: 'order-2',
+        actions: "my-actions",
+        cancelButton: "order-1 right-gap",
+        confirmButton: "order-3",
+        denyButton: "order-2",
       },
-      preConfirm: ()=> deleteTable(tableIndex),
+      preConfirm: () => deleteTable(tableIndex),
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire({
-          title: 'Deleted successfully!',
+          title: "Deleted successfully!",
           icon: "success",
           background: theme.palette.primary.light,
           color: theme.palette.secondary[100],
-        })
+        });
       } else if (result.isDenied) {
         Swal.fire({
           title: "Table wasn't deleted!",
           icon: "info",
           background: theme.palette.primary.light,
           color: theme.palette.secondary[100],
-        })
+        });
       }
-    })
-    
+    });
   };
-
 
   useEffect(() => {
     // Update pricing in productData whenever rows change
@@ -204,40 +203,39 @@ function CollapsibleTable({
 
   const handleConfirmDeleteColumn = (index) => {
     Swal.fire({
-      title: 'Are you sure?',
+      title: "Are you sure?",
       text: "Are you sure you want to delete this column?",
       showDenyButton: true,
       showCancelButton: true,
       confirmButtonText: "Delete",
-      denyButtonText: 'No',
+      denyButtonText: "No",
       icon: "warning",
       background: theme.palette.primary.light,
       color: theme.palette.secondary[100],
       customClass: {
-        actions: 'my-actions',
-        cancelButton: 'order-1 right-gap',
-        confirmButton: 'order-3',
-        denyButton: 'order-2',
+        actions: "my-actions",
+        cancelButton: "order-1 right-gap",
+        confirmButton: "order-3",
+        denyButton: "order-2",
       },
-      preConfirm: ()=> deleteColumn(index),
+      preConfirm: () => deleteColumn(index),
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire({
-          title: 'Deleted successfully!',
+          title: "Deleted successfully!",
           icon: "success",
           background: theme.palette.primary.light,
           color: theme.palette.secondary[100],
-        })
+        });
       } else if (result.isDenied) {
         Swal.fire({
           title: "Column wasn't deleted!",
           icon: "info",
           background: theme.palette.primary.light,
           color: theme.palette.secondary[100],
-        })
+        });
       }
-    })
-    
+    });
   };
 
   const addRow = () => {
@@ -255,6 +253,19 @@ function CollapsibleTable({
     setTables(updatedTables);
   };
 
+  const copyRow = (rowIndex) => {
+    if (rowIndex >= 0 && rowIndex < rows.length) {
+      const updatedTables = [...tables];
+      const currentRow = updatedTables[tableIndex].rows[rowIndex];
+
+      const copiedRow = { ...currentRow, pricing: [] };
+
+      updatedTables[tableIndex].rows.splice(rowIndex + 1, 0, copiedRow);
+
+      setTables(updatedTables);
+    }
+  };
+
   const deleteRow = (rowIndex) => {
     const updatedTables = [...tables];
     updatedTables[tableIndex].rows.splice(rowIndex, 1);
@@ -263,42 +274,40 @@ function CollapsibleTable({
 
   const handleConfirmDeleteRow = (rowIndex) => {
     Swal.fire({
-      title: 'Are you sure?',
+      title: "Are you sure?",
       text: "Are you sure you want to delete this row?",
       showDenyButton: true,
       showCancelButton: true,
       confirmButtonText: "Delete",
-      denyButtonText: 'No',
+      denyButtonText: "No",
       icon: "warning",
       background: theme.palette.primary.light,
       color: theme.palette.secondary[100],
       customClass: {
-        actions: 'my-actions',
-        cancelButton: 'order-1 right-gap',
-        confirmButton: 'order-3',
-        denyButton: 'order-2',
+        actions: "my-actions",
+        cancelButton: "order-1 right-gap",
+        confirmButton: "order-3",
+        denyButton: "order-2",
       },
-      preConfirm: ()=> deleteRow(rowIndex),
+      preConfirm: () => deleteRow(rowIndex),
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire({
-          title: 'Deleted successfully!',
+          title: "Deleted successfully!",
           icon: "success",
           background: theme.palette.primary.light,
           color: theme.palette.secondary[100],
-        })
+        });
       } else if (result.isDenied) {
         Swal.fire({
           title: "Row wasn't deleted!",
           icon: "info",
           background: theme.palette.primary.light,
           color: theme.palette.secondary[100],
-        })
+        });
       }
-    })
-    
+    });
   };
-
 
   const updateRow = (rowIndex, newRow) => {
     const updatedTables = [...tables];
@@ -318,40 +327,39 @@ function CollapsibleTable({
 
   const handleConfirmDeletePricingRow = (rowIndex, pricingIndex) => {
     Swal.fire({
-      title: 'Are you sure?',
+      title: "Are you sure?",
       text: "Are you sure you want to delete this row?",
       showDenyButton: true,
       showCancelButton: true,
       confirmButtonText: "Delete",
-      denyButtonText: 'No',
+      denyButtonText: "No",
       icon: "warning",
       background: theme.palette.primary.light,
       color: theme.palette.secondary[100],
       customClass: {
-        actions: 'my-actions',
-        cancelButton: 'order-1 right-gap',
-        confirmButton: 'order-3',
-        denyButton: 'order-2',
+        actions: "my-actions",
+        cancelButton: "order-1 right-gap",
+        confirmButton: "order-3",
+        denyButton: "order-2",
       },
-      preConfirm: ()=> deletePricingRow(rowIndex, pricingIndex),
+      preConfirm: () => deletePricingRow(rowIndex, pricingIndex),
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire({
-          title: 'Deleted successfully!',
+          title: "Deleted successfully!",
           icon: "success",
           background: theme.palette.primary.light,
           color: theme.palette.secondary[100],
-        })
+        });
       } else if (result.isDenied) {
         Swal.fire({
           title: "Row wasn't deleted!",
           icon: "info",
           background: theme.palette.primary.light,
           color: theme.palette.secondary[100],
-        })
+        });
       }
-    })
-    
+    });
   };
 
   const updateNestedCellData = (
@@ -377,42 +385,45 @@ function CollapsibleTable({
     setTables(updatedTables);
   };
 
-  const handleConfirmDeleteNestedCellData = (rowIndex, columnIndex, cellIndex) => {
+  const handleConfirmDeleteNestedCellData = (
+    rowIndex,
+    columnIndex,
+    cellIndex
+  ) => {
     Swal.fire({
-      title: 'Are you sure?',
+      title: "Are you sure?",
       text: "Are you sure you want to delete this cell?",
       showDenyButton: true,
       showCancelButton: true,
       confirmButtonText: "Delete",
-      denyButtonText: 'No',
+      denyButtonText: "No",
       icon: "warning",
       background: theme.palette.primary.light,
       color: theme.palette.secondary[100],
       customClass: {
-        actions: 'my-actions',
-        cancelButton: 'order-1 right-gap',
-        confirmButton: 'order-3',
-        denyButton: 'order-2',
+        actions: "my-actions",
+        cancelButton: "order-1 right-gap",
+        confirmButton: "order-3",
+        denyButton: "order-2",
       },
-      preConfirm: ()=> deleteNestedCellData(rowIndex, columnIndex, cellIndex),
+      preConfirm: () => deleteNestedCellData(rowIndex, columnIndex, cellIndex),
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire({
-          title: 'Deleted successfully!',
+          title: "Deleted successfully!",
           icon: "success",
           background: theme.palette.primary.light,
           color: theme.palette.secondary[100],
-        })
+        });
       } else if (result.isDenied) {
         Swal.fire({
           title: "Cell wasn't deleted!",
           icon: "info",
           background: theme.palette.primary.light,
           color: theme.palette.secondary[100],
-        })
+        });
       }
-    })
-    
+    });
   };
 
   const addNestedCellData = (rowIndex, columnIndex, newCell) => {
@@ -424,18 +435,22 @@ function CollapsibleTable({
   };
 
   const copyRowFromPrevious = (rowIndex, cellIndex) => {
-    if (rowIndex > 0 && rowIndex < rows.length && cellIndex >= 0 && cellIndex < columns.length) {
+    if (
+      rowIndex > 0 &&
+      rowIndex < rows.length &&
+      cellIndex >= 0 &&
+      cellIndex < columns.length
+    ) {
       const updatedTables = [...tables];
       const currentRow = updatedTables[tableIndex].rows[rowIndex];
       const previousRow = updatedTables[tableIndex].rows[rowIndex - 1];
-  
+
       if (previousRow.cellData.length > cellIndex) {
-        currentRow.cellData[cellIndex] = [ ...previousRow.cellData[cellIndex] ];
+        currentRow.cellData[cellIndex] = [...previousRow.cellData[cellIndex]];
         setTables(updatedTables);
       }
     }
   };
-  
 
   return (
     <div>
@@ -527,13 +542,16 @@ function CollapsibleTable({
                 rowIndex={rowIndex}
                 columns={columns}
                 addRow={() => addRow()}
+                copyRow={() => copyRow(rowIndex)}
                 updateRow={(newRow) => updateRow(rowIndex, newRow)}
                 handleConfirmDeleteRow={() => handleConfirmDeleteRow(rowIndex)}
                 handleConfirmDeletePricingRow={(pricingIndex) =>
                   handleConfirmDeletePricingRow(rowIndex, pricingIndex)
                 }
                 updateNestedCellData={updateNestedCellData}
-                handleConfirmDeleteNestedCellData={handleConfirmDeleteNestedCellData}
+                handleConfirmDeleteNestedCellData={
+                  handleConfirmDeleteNestedCellData
+                }
                 addNestedCellData={addNestedCellData}
                 copyRowFromPrevious={copyRowFromPrevious}
               />
@@ -553,6 +571,7 @@ function Row(props) {
     handleConfirmDeleteNestedCellData,
     addNestedCellData,
     copyRowFromPrevious,
+    copyRow,
   } = props;
 
   const photoInput = useRef(null);
@@ -582,18 +601,18 @@ function Row(props) {
     const updatedRow = { ...row, pricing: [...row.pricing, newPricingRow] };
     props.updateRow(updatedRow);
   };
-  
+
   const generateRows = () => {
     // Parse the entered quantity and price strings into arrays
     const quantityArray = quantityString
       .split(" ")
-      .map((str) => parseInt(str.replace(/,/g, ''), 10))
+      .map((str) => parseInt(str.replace(/,/g, ""), 10))
       .filter((num) => !isNaN(num));
     const priceArray = priceString
       .split(" ")
       .map((str) => parseFloat(str))
       .filter((num) => !isNaN(num));
-  
+
     // Check if both arrays have the same length
     if (quantityArray.length === priceArray.length) {
       // Create an updated row with the generated pricing information
@@ -604,12 +623,11 @@ function Row(props) {
           price: priceArray[index],
         })),
       };
-  
+
       // Update the specific row with the generated pricing
       props.updateRow(updatedRow);
     }
   };
-  
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -693,6 +711,13 @@ function Row(props) {
           >
             <AddIcon />
           </IconButton>
+          <IconButton
+            aria-label="delete pricing"
+            size="small"
+            onClick={copyRow}
+          >
+            <ContentCopyIcon/>
+          </IconButton>
         </TableCell>
       </TableRow>
       {columns.map((column, columnIndex) => (
@@ -704,17 +729,18 @@ function Row(props) {
             <Collapse in={columnIndex === openCellIndex} unmountOnExit>
               <Box sx={{ margin: 1 }}>
                 <div className="w-full flex items-center justify-between my-3">
-
-                <Typography variant="h6" gutterBottom component="div">
-                  {column}
-                </Typography>
-                <Button
-                  variant="outlined"
-                  color="secondary"
-                  onClick={() => copyRowFromPrevious(props.rowIndex, columnIndex)}
-                >
-                  Copy From Previous Row
-                </Button>
+                  <Typography variant="h6" gutterBottom component="div">
+                    {column}
+                  </Typography>
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={() =>
+                      copyRowFromPrevious(props.rowIndex, columnIndex)
+                    }
+                  >
+                    Copy From Previous Row
+                  </Button>
                 </div>
                 <Table size="small" aria-label="purchases">
                   <TableHead>
@@ -901,24 +927,29 @@ function Row(props) {
                 Pricing
               </Typography>
               <div className="w-full flex items-start gap-3 justify-between my-[2rem]">
-        <TextField
-          fullWidth
-          label="Quantity (Space-separated numbers)"
-          variant="outlined"
-          value={quantityString}
-          onChange={(e) => setQuantityString(e.target.value)}
-        />
-        <TextField
-         fullWidth
-          label="Price (Space-separated numbers)"
-          variant="outlined"
-          value={priceString}
-          onChange={(e) => setPriceString(e.target.value)}
-        />
-        <Button className="max-w-full w-[20rem]" variant="outlined" color="secondary" onClick={generateRows}>
-          Generate Rows
-        </Button>
-      </div>
+                <TextField
+                  fullWidth
+                  label="Quantity (Space-separated numbers)"
+                  variant="outlined"
+                  value={quantityString}
+                  onChange={(e) => setQuantityString(e.target.value)}
+                />
+                <TextField
+                  fullWidth
+                  label="Price (Space-separated numbers)"
+                  variant="outlined"
+                  value={priceString}
+                  onChange={(e) => setPriceString(e.target.value)}
+                />
+                <Button
+                  className="max-w-full w-[20rem]"
+                  variant="outlined"
+                  color="secondary"
+                  onClick={generateRows}
+                >
+                  Generate Rows
+                </Button>
+              </div>
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
@@ -958,7 +989,9 @@ function Row(props) {
                         <IconButton
                           aria-label="delete pricing"
                           size="small"
-                          onClick={() => props.handleConfirmDeletePricingRow(pricingIndex)}
+                          onClick={() =>
+                            props.handleConfirmDeletePricingRow(pricingIndex)
+                          }
                         >
                           <DeleteIcon />
                         </IconButton>
