@@ -257,14 +257,24 @@ function CollapsibleTable({
     if (rowIndex >= 0 && rowIndex < rows.length) {
       const updatedTables = [...tables];
       const currentRow = updatedTables[tableIndex].rows[rowIndex];
-
-      const copiedRow = { ...currentRow, pricing: [] };
-
+  
+      // Create a new array with separate instances of cell data objects
+      const copiedCellData = currentRow.cellData.map((columnData) =>
+        columnData.map((cell) => ({ ...cell }))
+      );
+  
+      const copiedRow = {
+        ...currentRow,
+        cellData: copiedCellData,
+        pricing: [], // Ensure pricing is empty
+      };
+  
       updatedTables[tableIndex].rows.splice(rowIndex + 1, 0, copiedRow);
-
+  
       setTables(updatedTables);
     }
   };
+  
 
   const deleteRow = (rowIndex) => {
     const updatedTables = [...tables];
@@ -369,6 +379,7 @@ function CollapsibleTable({
     field,
     value
   ) => {
+    console.log('rowIndex', rowIndex)
     const updatedTables = [...tables];
     updatedTables[tableIndex].rows[rowIndex].cellData[columnIndex][cellIndex][
       field
