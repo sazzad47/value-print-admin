@@ -97,6 +97,33 @@ function MultipleTables({ productData, setProductData }) {
     }));
   }, [tables, setProductData]);
 
+  // Initialize state to track the currently open table index
+  const [openTableIndex, setOpenTableIndex] = useState(-1);
+  // Handler to toggle the collapse/expand state of a specific table
+  const toggleTableCollapse = (index) => {
+    if (index === openTableIndex) {
+      // Clicking on the currently open table, close it
+      setOpenTableIndex(-1);
+    } else {
+      // Clicking on a different table, open it and close the currently open table
+      setOpenTableIndex(index);
+    }
+  };
+
+  const renderCollapseIcon = (index) => {
+    return openTableIndex === index ? (
+      <IconButton>
+        <KeyboardArrowUpIcon onClick={() => toggleTableCollapse(index)} />
+      </IconButton>
+    ) : (
+      <IconButton>
+        <KeyboardArrowDownIcon
+          onClick={() => toggleTableCollapse(index)}
+        />
+      </IconButton>
+    );
+  };
+
   return (
     <div>
       <div className="flex items-center gap-3 w-full justify-start mb-[3rem]">
@@ -111,7 +138,7 @@ function MultipleTables({ productData, setProductData }) {
         </Button>
       </div>
       {tables?.map((table, index) => (
-        <div key={index} className="mb-[5rem]">
+        <div key={index} className="">
           <CollapsibleTable
             table={table}
             columns={table.columns}
@@ -121,6 +148,8 @@ function MultipleTables({ productData, setProductData }) {
             setTables={setTables}
             addTable={addTable}
             handleConfirmDeleteTable={handleConfirmDeleteTable}
+            renderCollapseIcon={renderCollapseIcon}
+            openTableIndex={openTableIndex}
           />
         </div>
       ))}
@@ -136,6 +165,8 @@ function CollapsibleTable({
   setTables,
   table,
   handleConfirmDeleteTable,
+  renderCollapseIcon,
+  openTableIndex,
 }) {
   const theme = useTheme();
 
@@ -378,7 +409,6 @@ function CollapsibleTable({
     field,
     value
   ) => {
-    console.log("rowIndex", rowIndex);
     const updatedTables = [...tables];
     updatedTables[tableIndex].rows[rowIndex].cellData[columnIndex][cellIndex][
       field
@@ -500,7 +530,7 @@ function CollapsibleTable({
       </div>
     ) : (
       <span>
-         {table.tableName}
+        {table.tableName}
         <IconButton
           aria-label="edit table name"
           size="small"
@@ -514,9 +544,14 @@ function CollapsibleTable({
 
   return (
     <div>
-      <h1 className="text-xl md:text-2xl text-bold my-5 may-like-heading">
-        <span> Table: {renderTableName()} </span>
-      </h1>
+      <div className="flex justify-between items-center">
+        <h1 className="text-xl md:text-2xl text-bold my-5">
+          Table: {renderTableName()}
+        </h1>
+        {renderCollapseIcon(tableIndex)}
+      </div>
+
+      <Collapse in={openTableIndex === tableIndex} unmountOnExit>
 
       <div className="mb-5 w-full flex items-center justify-between gap-3">
         <div className="w-full flex items-center justify-start gap-3">
@@ -549,76 +584,80 @@ function CollapsibleTable({
           )}
         </div>
       </div>
-      <TableContainer>
-        <Table aria-label="collapsible table">
-          <TableHead>
-            <TableRow>
-              {columns.length > 0 && <TableCell>Pricing</TableCell>}
-              {columns.map((column, index) => (
-                <TableCell key={index}>
-                  {editedColumnIndex === index ? (
-                    <div className="flex items-center gap-2">
-                      <TextField
-                        value={editedColumnName}
-                        onChange={(e) => setEditedColumnName(e.target.value)}
-                      />
-                      <Button
-                        variant="outlined"
-                        color="secondary"
-                        onClick={() => updateColumn()}
-                      >
-                        Save
-                      </Button>
-                    </div>
-                  ) : (
-                    <div>
-                      {column}
-                      <IconButton
-                        aria-label="edit column"
-                        size="small"
-                        onClick={() => editColumn(index)}
-                      >
-                        <EditIcon />
-                      </IconButton>
-                      <IconButton
-                        aria-label="delete column"
-                        size="small"
-                        onClick={() => handleConfirmDeleteColumn(index)}
-                      >
-                        <DeleteIcon />
-                      </IconButton>
-                    </div>
-                  )}
-                </TableCell>
+    
+        <TableContainer>
+          <Table aria-label="collapsible table">
+            <TableHead>
+              <TableRow>
+                {columns.length > 0 && <TableCell>Pricing</TableCell>}
+                {columns.map((column, index) => (
+                  <TableCell key={index}>
+                    {editedColumnIndex === index ? (
+                      <div className="flex items-center gap-2">
+                        <TextField
+                          value={editedColumnName}
+                          onChange={(e) => setEditedColumnName(e.target.value)}
+                        />
+                        <Button
+                          variant="outlined"
+                          color="secondary"
+                          onClick={() => updateColumn()}
+                        >
+                          Save
+                        </Button>
+                      </div>
+                    ) : (
+                      <div>
+                        {column}
+                        <IconButton
+                          aria-label="edit column"
+                          size="small"
+                          onClick={() => editColumn(index)}
+                        >
+                          <EditIcon />
+                        </IconButton>
+                        <IconButton
+                          aria-label="delete column"
+                          size="small"
+                          onClick={() => handleConfirmDeleteColumn(index)}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      </div>
+                    )}
+                  </TableCell>
+                ))}
+                {columns.length > 0 && <TableCell>Action</TableCell>}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows.map((row, rowIndex) => (
+                <Row
+                  key={rowIndex}
+                  row={row}
+                  rowIndex={rowIndex}
+                  columns={columns}
+                  addRow={() => addRow()}
+                  copyRow={() => copyRow(rowIndex)}
+                  updateRow={(newRow) => updateRow(rowIndex, newRow)}
+                  handleConfirmDeleteRow={() =>
+                    handleConfirmDeleteRow(rowIndex)
+                  }
+                  handleConfirmDeletePricingRow={(pricingIndex) =>
+                    handleConfirmDeletePricingRow(rowIndex, pricingIndex)
+                  }
+                  updateNestedCellData={updateNestedCellData}
+                  handleConfirmDeleteNestedCellData={
+                    handleConfirmDeleteNestedCellData
+                  }
+                  addNestedCellData={addNestedCellData}
+                  copyRowFromPrevious={copyRowFromPrevious}
+                />
               ))}
-              {columns.length > 0 && <TableCell>Action</TableCell>}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row, rowIndex) => (
-              <Row
-                key={rowIndex}
-                row={row}
-                rowIndex={rowIndex}
-                columns={columns}
-                addRow={() => addRow()}
-                copyRow={() => copyRow(rowIndex)}
-                updateRow={(newRow) => updateRow(rowIndex, newRow)}
-                handleConfirmDeleteRow={() => handleConfirmDeleteRow(rowIndex)}
-                handleConfirmDeletePricingRow={(pricingIndex) =>
-                  handleConfirmDeletePricingRow(rowIndex, pricingIndex)
-                }
-                updateNestedCellData={updateNestedCellData}
-                handleConfirmDeleteNestedCellData={
-                  handleConfirmDeleteNestedCellData
-                }
-                addNestedCellData={addNestedCellData}
-                copyRowFromPrevious={copyRowFromPrevious}
-              />
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Collapse>
     </div>
   );
 }
