@@ -9,7 +9,7 @@ import DesignServices from "./DesignServices";
 import Artwork from "./Artwork";
 import Faq from "./Faq";
 import Features from "./Intro";
-import Pricing from "./Pricing";
+import Pricing from "./pricing";
 import General from "./General";
 import { useState } from "react";
 import {
