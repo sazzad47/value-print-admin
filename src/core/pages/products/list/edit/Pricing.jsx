@@ -21,7 +21,7 @@ import {
 } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
@@ -257,24 +257,23 @@ function CollapsibleTable({
     if (rowIndex >= 0 && rowIndex < rows.length) {
       const updatedTables = [...tables];
       const currentRow = updatedTables[tableIndex].rows[rowIndex];
-  
+
       // Create a new array with separate instances of cell data objects
       const copiedCellData = currentRow.cellData.map((columnData) =>
         columnData.map((cell) => ({ ...cell }))
       );
-  
+
       const copiedRow = {
         ...currentRow,
         cellData: copiedCellData,
         pricing: [], // Ensure pricing is empty
       };
-  
+
       updatedTables[tableIndex].rows.splice(rowIndex + 1, 0, copiedRow);
-  
+
       setTables(updatedTables);
     }
   };
-  
 
   const deleteRow = (rowIndex) => {
     const updatedTables = [...tables];
@@ -379,7 +378,7 @@ function CollapsibleTable({
     field,
     value
   ) => {
-    console.log('rowIndex', rowIndex)
+    console.log("rowIndex", rowIndex);
     const updatedTables = [...tables];
     updatedTables[tableIndex].rows[rowIndex].cellData[columnIndex][cellIndex][
       field
@@ -463,10 +462,60 @@ function CollapsibleTable({
     }
   };
 
+  // State to track whether the table name is being edited
+  const [isEditingTableName, setIsEditingTableName] = useState(false);
+  const [editedTableName, setEditedTableName] = useState(table.tableName);
+
+  // Handler to toggle the edit mode for the table name
+  const toggleEditTableName = () => {
+    setIsEditingTableName(!isEditingTableName);
+  };
+
+  // Handler to save the edited table name
+  const saveEditedTableName = () => {
+    // Ensure the table name is not empty
+    if (editedTableName.trim() !== "") {
+      const updatedTables = [...tables];
+      updatedTables[tableIndex].tableName = editedTableName;
+      setTables(updatedTables);
+      toggleEditTableName();
+    }
+  };
+
+  // JSX for the table name display and editing
+  const renderTableName = () => {
+    return isEditingTableName ? (
+      <div className="flex items-center gap-2">
+        <TextField
+          value={editedTableName}
+          onChange={(e) => setEditedTableName(e.target.value)}
+        />
+        <Button
+          variant="outlined"
+          color="secondary"
+          onClick={() => saveEditedTableName()}
+        >
+          Save
+        </Button>
+      </div>
+    ) : (
+      <span>
+         {table.tableName}
+        <IconButton
+          aria-label="edit table name"
+          size="small"
+          onClick={() => toggleEditTableName()}
+        >
+          <EditIcon />
+        </IconButton>
+      </span>
+    );
+  };
+
   return (
     <div>
       <h1 className="text-xl md:text-2xl text-bold my-5 may-like-heading">
-        <span> Table: {table.tableName} </span>
+        <span> Table: {renderTableName()} </span>
       </h1>
 
       <div className="mb-5 w-full flex items-center justify-between gap-3">
@@ -727,7 +776,7 @@ function Row(props) {
             size="small"
             onClick={copyRow}
           >
-            <ContentCopyIcon/>
+            <ContentCopyIcon />
           </IconButton>
         </TableCell>
       </TableRow>
