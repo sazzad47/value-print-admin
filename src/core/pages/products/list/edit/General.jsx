@@ -79,6 +79,8 @@ const General = ({
     }));
   };
 
+  console.log('productData.information', productData)
+
   return (
     <>
       {isLoading ? (
@@ -425,8 +427,9 @@ const General = ({
             </Grid>
 
             <Grid item xs={12}>
-             
                <TextEditor value={productData.information} state="information" setState={setProductData} />
+
+             
             </Grid>
           </Grid>
         </Grid>

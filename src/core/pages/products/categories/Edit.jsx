@@ -18,6 +18,7 @@ import {
 } from "../../../state";
 import { imageUpload } from "../../../utils/imageUpload";
 import InputField from "../../../components/InputField";
+import TextEditor from "../../../components/TextEditor";
 
 const Edit = () => {
   const navigate = useNavigate();
@@ -272,6 +273,7 @@ const Edit = () => {
                 )}
               </Grid>
             </Grid>
+            <TextEditor value={clientData.information} state="information" setState={setClientData} />
             <Grid container spacing={2}>
               <Grid item xs={12} md={6}>
                 <Button
