@@ -74,7 +74,7 @@ const Edit = () => {
       access_token,
     });
 
-    console.log('respone', response)
+    console.log("respone", response);
 
     if ("error" in response) {
       if ("data" in response.error) {
@@ -166,7 +166,7 @@ const Edit = () => {
                     errorMessages: errorMessage,
                   }}
                 />
-                 {errorMessage.name && (
+                {errorMessage.name && (
                   <Grid className="flex items-center mt-2 gap-2 text-white">
                     <ErrorIcon />
                     <Typography className="p-0 text-sm">
@@ -250,30 +250,14 @@ const Edit = () => {
                 >
                   Information
                 </label>
-                <InputField
-                  inputProps={{
-                    multiline: true,
-                    minRows: 3,
-                    type: "text",
-                    name: "information",
-                    id: "information",
-                    value: clientData?.information,
-                    onChange: handleChange,
-                    setErrorMessage: setErrorMessage,
-                    errorMessages: errorMessage,
-                  }}
+                <TextEditor
+                  value={clientData.information}
+                  state="information"
+                  setState={setClientData}
                 />
-                 {errorMessage.information && (
-                  <Grid className="flex items-center mt-2 gap-2 text-white">
-                    <ErrorIcon />
-                    <Typography className="p-0 text-sm">
-                      {errorMessage.information}
-                    </Typography>
-                  </Grid>
-                )}
               </Grid>
             </Grid>
-            <TextEditor value={clientData.information} state="information" setState={setClientData} />
+
             <Grid container spacing={2}>
               <Grid item xs={12} md={6}>
                 <Button
@@ -312,7 +296,5 @@ const Edit = () => {
     </>
   );
 };
-
-
 
 export default Edit;

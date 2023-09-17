@@ -79,7 +79,7 @@ const General = ({
     }));
   };
 
-  console.log('productData.information', productData)
+  console.log("productData.information", productData);
 
   return (
     <>
@@ -385,7 +385,7 @@ const General = ({
               />
             </Grid>
             <Grid item xs={12}>
-            <div className="block mb-3 text-sm font-semibold text-secondaryTheme">
+              <div className="block mb-3 text-sm font-semibold text-secondaryTheme">
                 Perfect for
               </div>
               {productData?.perfect_for?.map((cause, causeIndex) => (
@@ -427,9 +427,17 @@ const General = ({
             </Grid>
 
             <Grid item xs={12}>
-               <TextEditor value={productData.information} state="information" setState={setProductData} />
-
-             
+              <label
+                htmlFor="information"
+                className="block mb-3 text-sm font-semibold text-secondaryTheme"
+              >
+                Information
+              </label>
+              <TextEditor
+                value={productData.information}
+                state="information"
+                setState={setProductData}
+              />
             </Grid>
           </Grid>
         </Grid>
