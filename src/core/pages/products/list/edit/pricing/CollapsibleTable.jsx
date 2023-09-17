@@ -16,6 +16,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Row from "./Row";
 import { showConfirmationDialog } from "./dialogs";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 const CollapsibleTable = ({
   columns,
@@ -133,7 +134,7 @@ const CollapsibleTable = ({
       const copiedRow = {
         ...currentRow,
         cellData: copiedCellData,
-        pricing: [], 
+        pricing: [],
       };
 
       updatedTables[tableIndex].rows.splice(rowIndex + 1, 0, copiedRow);
@@ -257,6 +258,49 @@ const CollapsibleTable = ({
     }
   };
 
+  const handleColumnReorder = (result) => {
+    if (!result.destination) return; // Dropped outside the list
+
+    const sourceIndex = result.source.index;
+    const destinationIndex = result.destination.index;
+
+    if (sourceIndex === destinationIndex) return; // No change in order
+
+    const updatedTables = [...tables];
+    const reorderedColumns = [...columns];
+    const [movedColumn] = reorderedColumns.splice(sourceIndex, 1); // Remove the moved column
+    reorderedColumns.splice(destinationIndex, 0, movedColumn); // Insert the column at the new position
+
+    // Update the columns order
+    updatedTables[tableIndex].columns = reorderedColumns;
+
+    // Update cellData to match the new column order
+    updatedTables[tableIndex].rows.forEach((row) => {
+      const newCellData = reorderedColumns.map((column) => {
+        const columnIndex = columns.indexOf(column); // Find the column index
+        return row.cellData[columnIndex];
+      });
+      row.cellData = newCellData;
+    });
+
+    setTables(updatedTables);
+  };
+
+  const handleRowReorder = (result) => {
+    if (!result.destination) return; // Dropped outside the list
+
+    const sourceIndex = result.source.index;
+    const destinationIndex = result.destination.index;
+
+    if (sourceIndex === destinationIndex) return; // No change in order
+
+    const updatedTables = [...tables];
+    const movedRow = updatedTables[tableIndex].rows.splice(sourceIndex, 1)[0];
+    updatedTables[tableIndex].rows.splice(destinationIndex, 0, movedRow);
+
+    setTables(updatedTables);
+  };
+
   // State to track whether the table name is being edited
   const [isEditingTableName, setIsEditingTableName] = useState(false);
   const [editedTableName, setEditedTableName] = useState(table.tableName);
@@ -355,74 +399,127 @@ const CollapsibleTable = ({
 
         <TableContainer>
           <Table aria-label="collapsible table">
-            <TableHead>
-              <TableRow>
-                {columns.length > 0 && <TableCell>Pricing</TableCell>}
-                {columns.map((column, index) => (
-                  <TableCell key={index}>
-                    {editedColumnIndex === index ? (
-                      <div className="flex items-center gap-2">
-                        <TextField
-                          value={editedColumnName}
-                          onChange={(e) => setEditedColumnName(e.target.value)}
-                        />
-                        <Button
-                          variant="outlined"
-                          color="secondary"
-                          onClick={() => updateColumn()}
+            <DragDropContext onDragEnd={handleColumnReorder}>
+              <Droppable droppableId="columns" direction="horizontal">
+                {(provided) => (
+                  <TableHead
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                    className="your-table-header-row"
+                  >
+                    <TableRow>
+                      {columns.length > 0 && <TableCell>Pricing</TableCell>}
+                      {columns.map((column, index) => (
+                        <Draggable
+                          key={column.id}
+                          draggableId={`column-${index}`} // Make sure this is unique
+                          index={index}
                         >
-                          Save
-                        </Button>
-                      </div>
-                    ) : (
-                      <div>
-                        {column}
-                        <IconButton
-                          aria-label="edit column"
-                          size="small"
-                          onClick={() => editColumn(index)}
-                        >
-                          <EditIcon />
-                        </IconButton>
-                        <IconButton
-                          aria-label="delete column"
-                          size="small"
-                          onClick={() => handleConfirmDeleteColumn(index)}
-                        >
-                          <DeleteIcon />
-                        </IconButton>
-                      </div>
-                    )}
-                  </TableCell>
-                ))}
-                {columns.length > 0 && <TableCell>Action</TableCell>}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map((row, rowIndex) => (
-                <Row
-                  key={rowIndex}
-                  row={row}
-                  rowIndex={rowIndex}
-                  columns={columns}
-                  addRow={() => addRow()}
-                  copyRow={() => copyRow(rowIndex)}
-                  updateRow={(newRow) => updateRow(rowIndex, newRow)}
-                  handleConfirmDeleteRow={() =>
-                    handleConfirmDeleteRow(rowIndex)
-                  }
-                  handleConfirmDeletePricingRow={(pricingIndex) =>
-                    handleConfirmDeletePricingRow(rowIndex, pricingIndex)
-                  }
-                  updateNestedCellData={updateNestedCellData}
-                  handleConfirmDeleteNestedCellData={
-                    handleConfirmDeleteNestedCellData
-                  }
-                  addNestedCellData={addNestedCellData}
-                  copyRowFromPrevious={copyRowFromPrevious}
-                />
-              ))}
-            </TableBody>
+                          {(provided) => (
+                            <TableCell>
+                              <div
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                              >
+                                {editedColumnIndex === index ? (
+                                  <div className="flex items-center gap-2">
+                                    <TextField
+                                      value={editedColumnName}
+                                      onChange={(e) =>
+                                        setEditedColumnName(e.target.value)
+                                      }
+                                    />
+                                    <Button
+                                      variant="outlined"
+                                      color="secondary"
+                                      onClick={() => updateColumn()}
+                                    >
+                                      Save
+                                    </Button>
+                                  </div>
+                                ) : (
+                                  <div>
+                                    {column}
+                                    <IconButton
+                                      aria-label="edit column"
+                                      size="small"
+                                      onClick={() => editColumn(index)}
+                                    >
+                                      <EditIcon />
+                                    </IconButton>
+                                    <IconButton
+                                      aria-label="delete column"
+                                      size="small"
+                                      onClick={() =>
+                                        handleConfirmDeleteColumn(index)
+                                      }
+                                    >
+                                      <DeleteIcon />
+                                    </IconButton>
+                                  </div>
+                                )}
+                              </div>
+                            </TableCell>
+                          )}
+                        </Draggable>
+                      ))}
+                      {columns.length > 0 && <TableCell>Action</TableCell>}
+                    </TableRow>
+                    {provided.placeholder}
+                  </TableHead>
+                )}
+              </Droppable>
+            </DragDropContext>
+            <DragDropContext onDragEnd={handleRowReorder}>
+              <Droppable droppableId="rows" direction="vertical">
+                {(provided) => (
+                  <TableBody
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                    className="your-table-body"
+                  >
+                    {rows.map((row, rowIndex) => (
+                      <Draggable
+                        key={rowIndex}
+                        draggableId={`row-${rowIndex}`}
+                        index={rowIndex}
+                      >
+                        {(provided) => (
+                          <Row
+                            provided={provided}
+                            key={rowIndex}
+                            row={row}
+                            rowIndex={rowIndex}
+                            columns={columns}
+                            addRow={() => addRow()}
+                            copyRow={() => copyRow(rowIndex)}
+                            updateRow={(newRow) => updateRow(rowIndex, newRow)}
+                            handleConfirmDeleteRow={() =>
+                              handleConfirmDeleteRow(rowIndex)
+                            }
+                            handleConfirmDeletePricingRow={(pricingIndex) =>
+                              handleConfirmDeletePricingRow(
+                                rowIndex,
+                                pricingIndex
+                              )
+                            }
+                            updateNestedCellData={updateNestedCellData}
+                            handleConfirmDeleteNestedCellData={
+                              handleConfirmDeleteNestedCellData
+                            }
+                            addNestedCellData={addNestedCellData}
+                            copyRowFromPrevious={copyRowFromPrevious}
+                          />
+                        )}
+                      </Draggable>
+                    ))}
+
+                    {provided.placeholder}
+                  </TableBody>
+                )}
+              </Droppable>
+            </DragDropContext>
           </Table>
         </TableContainer>
       </Collapse>
