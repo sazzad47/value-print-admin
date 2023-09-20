@@ -25,9 +25,7 @@ const Create = () => {
 
   const [clientData, setClientData] = useState({
     name: "",
-    photo: "",
     cover: "",
-    information: "",
   });
   const [createCategory, { isLoading: isCreateCategoryLoading }] =
     useCreateCategoryMutation({ data: clientData, id, access_token });
@@ -132,7 +130,7 @@ const Create = () => {
                     errorMessages: errorMessage,
                   }}
                 />
-                 {errorMessage.name && (
+                {errorMessage.name && (
                   <Grid className="flex items-center mt-2 gap-2 text-white">
                     <ErrorIcon />
                     <Typography className="p-0 text-sm">
@@ -141,40 +139,7 @@ const Create = () => {
                   </Grid>
                 )}
               </Grid>
-              <Grid item xs={12} md={6}>
-                <div className="block mb-3 text-sm font-semibold text-secondaryTheme">
-                  Upload photo
-                </div>
-                {clientData.photo && (
-                  <div className="w-[150px] h-[140px] relative mb-2">
-                    {" "}
-                    <img
-                      className="text-white w-full h-full absolute"
-                      src={clientData.photo}
-                      alt=""
-                    />
-                  </div>
-                )}
 
-                <label className="block">
-                  <span className="sr-only">Upload a photo</span>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    name="photo"
-                    onChange={handleFileInputChange}
-                    className="block w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded-[5px] file:rounded-r-none file:border-0 file:h-[56px] file:cursor-pointer file:text-sm file:font-semibold file:bg-gray-900 file:text-white hover:file:bg-gray-900/2 common-input cursor-pointer rounded-md text-secondaryTheme"
-                  />
-                </label>
-                {errorMessage.photo && (
-                  <Grid className="flex items-center mt-2 gap-2 text-white">
-                    <ErrorIcon />
-                    <Typography className="p-0 text-sm">
-                      {errorMessage.photo}
-                    </Typography>
-                  </Grid>
-                )}
-              </Grid>
               <Grid item xs={12} md={6}>
                 <div className="block mb-3 text-sm font-semibold text-secondaryTheme">
                   Upload cover photo
@@ -208,27 +173,6 @@ const Create = () => {
                     </Typography>
                   </Grid>
                 )}
-              </Grid>
-              <Grid item xs={12}>
-                <label
-                  htmlFor="information"
-                  className="block mb-3 text-sm font-semibold text-secondaryTheme"
-                >
-                  Information
-                </label>
-                <InputField
-                  inputProps={{
-                    multiline: true,
-                    minRows: 3,
-                    type: "text",
-                    name: "information",
-                    id: "information",
-                    value: clientData?.information,
-                    onChange: handleChange,
-                    setErrorMessage: setErrorMessage,
-                    errorMessages: errorMessage,
-                  }}
-                />
               </Grid>
             </Grid>
             <Grid container spacing={2}>

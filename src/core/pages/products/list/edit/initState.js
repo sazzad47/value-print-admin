@@ -13,7 +13,7 @@ export const initialProductData = {
     "Making connections",
     "Impressing your date"
   ],
-  cover: "",
+  cover_photo: [],
   information: "",
   options: [
     {

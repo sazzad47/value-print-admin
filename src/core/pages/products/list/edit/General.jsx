@@ -18,6 +18,7 @@ import { Oval } from "react-loader-spinner";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import TextEditor from "../../../../components/TextEditor";
+import ImageUploader from "../../../../components/ImageUploader";
 
 // const ratingData = [1, 2, 4, 5];
 const General = ({
@@ -248,126 +249,17 @@ const General = ({
               </label>
             </Grid>
             <Grid item xs={12}>
-              <div className="block mb-3 text-sm font-semibold text-secondaryTheme">
-                Upload cover photo
-              </div>
-              {productData.cover && (
-                <div className="w-[150px] h-[140px] relative">
-                  {" "}
-                  <img
-                    className="text-white w-full h-full absolute"
-                    src={productData.cover}
-                    alt=""
-                  />
-                </div>
-              )}
+              <ImageUploader
+                userData={productData}
+                setUserData={setProductData}
+                errorMessage={errorMessage}
+                setErrorMessage={setErrorMessage}
+                label="Upload cover photo"
+                name="cover_photo"
+                multiple={true}
+              />
+            </Grid>
 
-              <label className="block">
-                <span className="sr-only">Upload a photo</span>
-                <input
-                  type="file"
-                  accept="image/*"
-                  name="cover"
-                  onChange={handleFileInputChange}
-                  className="block w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded-[5px] file:rounded-r-none file:border-0 file:h-[56px] file:cursor-pointer file:text-sm file:font-semibold file:bg-gray-900 file:text-white hover:file:bg-gray-900/2 common-input cursor-pointer rounded-md text-secondaryTheme"
-                />
-              </label>
-            </Grid>
-            {/* <Grid item xs={12}>
-              <FormControl className="w-full">
-                <InputLabel
-                  id="demo-simple-select-label"
-                  sx={{
-                    color: "rgb(214 211 209)",
-                    "&.Mui-focused": {
-                      color: "rgb(214 211 209)",
-                    },
-                  }}
-                >
-                  Select rating
-                </InputLabel>
-                <Select
-                  fullWidth
-                  required
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  name="rating"
-                  type="number"
-                  value={productData.rating}
-                  onChange={handleTextInputChange}
-                  sx={{
-                    color: "white",
-                    label: {
-                      color: "darkred",
-                      "&.Mui-focused": {
-                        color: "darkred",
-                      },
-                    },
-                    ".MuiOutlinedInput-notchedOutline": {
-                      color: "rgb(214 211 209)",
-                      borderColor: "rgb(120 113 108)",
-                    },
-                    "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                      color: "rgb(214 211 209)",
-                      borderColor: "rgb(214 211 209)",
-                    },
-                    "&:hover .MuiOutlinedInput-notchedOutline": {
-                      color: "rgb(214 211 209)",
-                      borderColor: "rgb(168 162 158)",
-                    },
-                    ".MuiSvgIcon-root ": {
-                      fill: "rgb(214 211 209)",
-                    },
-                  }}
-                  inputProps={{
-                    MenuProps: {
-                      MenuListProps: {
-                        sx: {
-                          backgroundColor: "rgb(63 63 70)",
-                          color: "white",
-                        },
-                      },
-                    },
-                  }}
-                  label="Select rating"
-                  className="rounded-md"
-                >
-                  {ratingData.map((item, i) => (
-                    <MenuItem key={i} value={item}>
-                      {item}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12}>
-              <InputField
-                inputProps={{
-                  type: "number",
-                  name: "starting_quantity",
-                  id: "starting_quantity",
-                  label: "Starting Quantity",
-                  value: productData.starting_quantity,
-                  onChange: handleTextInputChange,
-                  setErrorMessage,
-                  errorMessages: errorMessage,
-                }}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <InputField
-                inputProps={{
-                  type: "number",
-                  name: "starting_price",
-                  id: "starting_price",
-                  label: "Starting Price",
-                  value: productData.starting_price,
-                  onChange: handleTextInputChange,
-                  setErrorMessage,
-                  errorMessages: errorMessage,
-                }}
-              />
-            </Grid> */}
             <Grid item xs={12}>
               <InputField
                 inputProps={{
