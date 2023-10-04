@@ -9,7 +9,8 @@ import CategoryIcon from "@mui/icons-material/Category";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import AllInboxIcon from "@mui/icons-material/AllInbox";
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
-// import FeaturedPlayListIcon from "@mui/icons-material/FeaturedPlayList";
+import VpnKeyIcon from '@mui/icons-material/VpnKey';
+import BookIcon from '@mui/icons-material/Book';
 import AssistantIcon from "@mui/icons-material/Assistant";
 import { Box, useTheme } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
@@ -134,6 +135,20 @@ const SidebarComponent = ({ isSidebarOpen }) => {
                 icon={<MonetizationOnRoundedIcon />}
               >
                 Transactions
+              </MenuItem>
+              <MenuItem
+                active={window.location.pathname === "/blogs"}
+                component={<Link to="/blogs" className="link" />}
+                icon={<BookIcon />}
+              >
+                Blogs
+              </MenuItem>
+              <MenuItem
+                active={window.location.pathname === "/coupons "}
+                component={<Link to="/coupons " className="link" />}
+                icon={<VpnKeyIcon />}
+              >
+                Coupons 
               </MenuItem>
               {/* <MenuItem
                 active={window.location.pathname === "/reviews"}
