@@ -136,20 +136,20 @@ const SidebarComponent = ({ isSidebarOpen }) => {
               >
                 Transactions
               </MenuItem>
-              <MenuItem
+              {/* <MenuItem
                 active={window.location.pathname === "/blogs"}
                 component={<Link to="/blogs" className="link" />}
                 icon={<BookIcon />}
               >
                 Blogs
-              </MenuItem>
-              <MenuItem
+              </MenuItem> */}
+              {/* <MenuItem
                 active={window.location.pathname === "/coupons "}
                 component={<Link to="/coupons " className="link" />}
                 icon={<VpnKeyIcon />}
               >
                 Coupons 
-              </MenuItem>
+              </MenuItem> */}
               {/* <MenuItem
                 active={window.location.pathname === "/reviews"}
                 component={<Link to="/reviews" className="link" />}
